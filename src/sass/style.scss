@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    
+    height: 100vh;
+    background-color: black
+}
+
+@import "abstracts/_variables";
+@import "components/_overlay";
+@import "components/_preloader";
+@import "components/_error";
+@import "layout/_header";
+@import "layout/_main";
+@import "layout/_footer";

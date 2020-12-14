@@ -1,0 +1,6 @@
+.footer {
+    @include main_blocks(5%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

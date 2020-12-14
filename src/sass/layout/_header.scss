@@ -1,0 +1,22 @@
+.header {
+    @include main_blocks(15%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__title {
+        height: 70%;
+        font-size: 70px;
+        font-weight: 700;
+        text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+        color: crimson;
+    }
+
+    &__date {
+        height: 30%;
+        font-size: 20px;
+        text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+        color: white;
+    }
+}

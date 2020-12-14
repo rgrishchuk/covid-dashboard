@@ -1,0 +1,35 @@
+.main {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        height: 100%;
+
+        &.disabled {
+            display: none;
+        }
+    
+        .countries {
+            @include main_blocks(100%, 20%);
+        }
+
+        .map {
+            @include main_blocks(100%, 50%);
+        }
+
+        &__right {
+            width: 30%;
+
+            .table {
+                @include main_blocks(50%);
+                margin-bottom: 0;
+            }
+            .chart {
+                @include main_blocks(50%);
+            }
+        }
+    }
+}
