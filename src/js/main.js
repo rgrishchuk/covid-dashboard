@@ -26,7 +26,7 @@ function showError() {
 
 showPreloader();
 
-window.onload = function () {
+window.onload = () => {
   document.querySelector('#error-button').addEventListener('click', () => {
     hideError();
     showPreloader();
