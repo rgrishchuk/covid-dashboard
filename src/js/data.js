@@ -11,7 +11,7 @@ async function getJSON(url) {
 export default async function getData() {
   const covidData = await getJSON('https://api.covid19api.com/summary');
   const countriesData = await getJSON('https://restcountries.eu/rest/v2');
-  if (covidData.Countries && Array.isArray(countriesData)) {
+  if (covidData && covidData.Countries && Array.isArray(countriesData)) {
     covidData.Countries.forEach((item) => {
       const tmp = item;
       const res = countriesData.find((country) => country.alpha2Code === item.CountryCode);
@@ -20,6 +20,7 @@ export default async function getData() {
         tmp.population = res.population;
       }
     });
+    delete covidData.Message;
     return covidData;
   }
   return null;
