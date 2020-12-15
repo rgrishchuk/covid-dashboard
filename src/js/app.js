@@ -1,8 +1,8 @@
 import State from './state';
 import Map from './Modules/map';
-import Countries from './Modules/countries';
-import Table from './Modules/table';
-import Chart from './Modules/chart';
+// import Countries from './Modules/countries';
+// import Table from './Modules/table';
+// import Chart from './Modules/chart';
 
 function lastUpdate(date) {
   const options = {
@@ -21,9 +21,9 @@ export default class App {
     this.state = new State();
     this.modules = [];
     this.modules.push(new Map(this.state));
-    this.modules.push(new Countries(this.state));
-    this.modules.push(new Table(this.state));
-    this.modules.push(new Chart(this.state));
+    // this.modules.push(new Countries(this.state));
+    // this.modules.push(new Table(this.state));
+    // this.modules.push(new Chart(this.state));
   }
 
   init(data) {

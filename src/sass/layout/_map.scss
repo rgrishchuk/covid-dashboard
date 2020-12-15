@@ -1,0 +1,16 @@
+.map {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        height: 5%;
+    }
+
+    &__content {
+        height: 85%;
+    }
+
+    &__buttons {
+        height: 10%;
+    }
+}
