@@ -17,16 +17,15 @@ export default class Countries {
   createCountries() {
     /* const input = document.querySelector('.input-country'); */
     const listCountries = document.querySelector('.list-countries');
-    console.log(this.state.data.Countries);
+
     this.state.data.Countries.forEach((el, i) => {
       const item = document.createElement('li');
       item.classList.add('item');
       item.innerHTML = `<span>${i + 1}. ${el.Country}</span> <img class="flag" src="${el.flag}">`;
-      console.log(item);
 
       item.addEventListener('click', () => {
         /* eslint-disable-next-line */
-        for (const elem of list.children) {
+        for (const elem of listCountries.children) {
           elem.classList.remove('active');
         }
         item.classList.add('active');
