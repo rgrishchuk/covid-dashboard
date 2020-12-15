@@ -1,8 +1,10 @@
+$background: #303030;
+
 @mixin main_blocks($height: 100%, $width: 100%) {
     padding: 5px;
     height: $height;    
     width: $width;
-    background: #303030;
+    background: $background;
     border: 1px solid#454444;
     color: white;
 }
