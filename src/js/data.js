@@ -10,7 +10,7 @@ async function getJSON(url) {
   }
 }
 
-function perThousand(value, all) {
+function getDataPer100k(value, all) {
   return Math.ceil(((value * 100000) / all) * 10) / 10;
 }
 
@@ -20,17 +20,17 @@ export default async function getData() {
   if (covidData && covidData.Countries && Array.isArray(countriesData)) {
     let historical = '';
 
-    covidData.Global.NewConfirmed100k = perThousand(covidData.Global.NewConfirmed,
+    covidData.Global.NewConfirmed100k = getDataPer100k(covidData.Global.NewConfirmed,
       WORLD_POPULATION);
-    covidData.Global.NewDeaths100k = perThousand(covidData.Global.NewDeaths,
+    covidData.Global.NewDeaths100k = getDataPer100k(covidData.Global.NewDeaths,
       WORLD_POPULATION);
-    covidData.Global.NewRecovered100k = perThousand(covidData.Global.NewRecovered,
+    covidData.Global.NewRecovered100k = getDataPer100k(covidData.Global.NewRecovered,
       WORLD_POPULATION);
-    covidData.Global.TotalConfirmed100k = perThousand(covidData.Global.TotalConfirmed,
+    covidData.Global.TotalConfirmed100k = getDataPer100k(covidData.Global.TotalConfirmed,
       WORLD_POPULATION);
-    covidData.Global.TotalDeaths100k = perThousand(covidData.Global.TotalDeaths,
+    covidData.Global.TotalDeaths100k = getDataPer100k(covidData.Global.TotalDeaths,
       WORLD_POPULATION);
-    covidData.Global.TotalRecovered100k = perThousand(covidData.Global.TotalRecovered,
+    covidData.Global.TotalRecovered100k = getDataPer100k(covidData.Global.TotalRecovered,
       WORLD_POPULATION);
 
     covidData.Countries.forEach((item) => {
@@ -42,12 +42,12 @@ export default async function getData() {
         curr.latlng = res.latlng;
         curr.flag = res.flag;
         curr.population = res.population;
-        curr.NewConfirmed100k = perThousand(curr.NewConfirmed, curr.population);
-        curr.NewDeaths100k = perThousand(curr.NewDeaths, curr.population);
-        curr.NewRecovered100k = perThousand(curr.NewRecovered, curr.population);
-        curr.TotalConfirmed100k = perThousand(curr.TotalConfirmed, curr.population);
-        curr.TotalDeaths100k = perThousand(curr.TotalDeaths, curr.population);
-        curr.TotalRecovered100k = perThousand(curr.TotalRecovered, curr.population);
+        curr.NewConfirmed100k = getDataPer100k(curr.NewConfirmed, curr.population);
+        curr.NewDeaths100k = getDataPer100k(curr.NewDeaths, curr.population);
+        curr.NewRecovered100k = getDataPer100k(curr.NewRecovered, curr.population);
+        curr.TotalConfirmed100k = getDataPer100k(curr.TotalConfirmed, curr.population);
+        curr.TotalDeaths100k = getDataPer100k(curr.TotalDeaths, curr.population);
+        curr.TotalRecovered100k = getDataPer100k(curr.TotalRecovered, curr.population);
       }
     });
     delete covidData.Message;
