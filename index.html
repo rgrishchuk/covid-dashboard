@@ -29,9 +29,19 @@
                 <div class="countries__buttons"></div>
             </section>
             <section class="map">
-                <div class="map__title"></div>
+                <div class="map__title"><i class="material-icons icon_full" id="icon-full">fullscreen</i></div>
                 <div class="map__content"></div>
-                <div class="map__buttons"></div>
+                <div class="map__buttons">
+                    <fieldset class="index"> <legend><b>Index</b></legend>
+                        <label><input type="radio" name="index" value="cases" checked="checked"> cases</label>
+                        <label><input type="radio" name="index" value="deaths"> deaths</label>
+                        <label><input type="radio" name="index" value="recovered"> recovered</label>
+                        <input type="checkbox" id="perThousand"/><label for="perThousand"> per 100 000</label>
+                    </fieldset>
+                    <fieldset class="period"> <legend><b>Period</b></legend>
+                        <label><input type="radio" name="period" value="all" checked="checked"> all</label>
+                        <label><input type="radio" name="period" value="day"> last day</label>
+                    </fieldset>
             </section>
             <div class="main__container__right">
                 <section class="table">
