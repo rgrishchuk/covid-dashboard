@@ -27,7 +27,13 @@
         <div class="main__container">
             <section class="countries">
                 <div class="countries__title">
-                    <h3 class="title">Countries</h3>
+                    <div class="dropdown dropdown-dark">
+                        <select name="cases-select" class="dropdown-select">
+                            <option value="confirmed">Confirmed</option>
+                            <option value="deaths">Deaths</option>
+                            <option value="recovered">Recovered</option>
+                        </select>
+                    </div>
                     <input class="input-country" type="text" placeholder="country search">
                 </div>
                 <div class="countries__content">
@@ -36,24 +42,24 @@
                 <div class="countries__buttons">
                     <div class="block-period">
                         <div class="block-period__btn">
-                            <input type="radio" id="x-option" name="period" checked>
+                            <input class="btn-all-period" type="radio" id="x-option" name="period" checked>
                             <label for="x-option">all period</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-period__btn">
-                            <input type="radio" id="y-option" name="period">
+                            <input class="btn-last-day" type="radio" id="y-option" name="period">
                             <label for="y-option">last day</label>
                             <div class="check"></div>
                         </div>
                     </div>
                     <div class="block-magnitudes">
                         <div class="block-magnitudes__btn">
-                            <input type="radio" id="a-option" name="magnitudes" checked>
-                            <label for="a-option">default</label>
+                            <input class="btn-total-cases" type="radio" id="a-option" name="magnitudes" checked>
+                            <label for="a-option">total cases</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-magnitudes__btn">
-                            <input type="radio" id="b-option" name="magnitudes">
+                            <input class="btn-per-100k" type="radio" id="b-option" name="magnitudes">
                             <label for="b-option">per 100k</label>
                             <div class="check"></div>
                         </div>
