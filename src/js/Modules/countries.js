@@ -29,6 +29,8 @@ export default class Countries {
           elem.classList.remove('active');
         }
         item.classList.add('active');
+        this.state.set('currentCountry', el.Country);
+        console.log(this.state);
       });
 
       listCountries.append(item);

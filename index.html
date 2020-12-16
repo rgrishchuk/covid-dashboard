@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Covid-19 DASHBOARD</title>
     <link rel="icon" type="image/png" sizes="64x64" href="./assets/icons/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/assets/libraries/Leaflet/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="overlay" id="overlay"></div>
     <img src="./assets/icons/rolling.svg" alt="" class="preloader" id="preloader">
@@ -22,7 +24,7 @@
         <div class="header__date" id="lastUpdate"></div>
     </header>
     <main class="main">
-            <div class="main__container">
+        <div class="main__container">
             <section class="countries">
                 <div class="countries__title">
                     <h3 class="title">Countries</h3>
@@ -31,7 +33,32 @@
                 <div class="countries__content">
                     <ul class="list-countries"></ul>
                 </div>
-                <div class="countries__buttons"></div>
+                <div class="countries__buttons">
+                    <div class="block-period">
+                        <div class="block-period__btn">
+                            <input type="radio" id="x-option" name="period" checked>
+                            <label for="x-option">all period</label>
+                            <div class="check"></div>
+                        </div>
+                        <div class="block-period__btn">
+                            <input type="radio" id="y-option" name="period">
+                            <label for="y-option">last day</label>
+                            <div class="check"></div>
+                        </div>
+                    </div>
+                    <div class="block-magnitudes">
+                        <div class="block-magnitudes__btn">
+                            <input type="radio" id="a-option" name="magnitudes" checked>
+                            <label for="a-option">default</label>
+                            <div class="check"></div>
+                        </div>
+                        <div class="block-magnitudes__btn">
+                            <input type="radio" id="b-option" name="magnitudes">
+                            <label for="b-option">per 100k</label>
+                            <div class="check"></div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <section class="map">
                 <div class="map__title"></div>
@@ -43,7 +70,7 @@
                     <div class="table__title"></div>
                     <div class="table__content"></div>
                     <div class="table__buttons"></div>
-                    </section>
+                </section>
                 <section class="chart">
                     <div class="chart__title"></div>
                     <div class="chart__content"></div>
@@ -57,4 +84,5 @@
     <script src="/assets/libraries/Chart/Chart.bundle.min.js"></script>
     <script src="index.js"></script>
 </body>
+
 </html>
