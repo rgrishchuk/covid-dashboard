@@ -1,216 +1,243 @@
-.countries {
-  width: 100%;
-  height: 100%;
-  min-width: 300px;
-  border: 1px solid #666;
-  &__title {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 10px 17px 10px;
-    height: 120px;
-    .dropdown {
-      display: inline-block;
-      position: relative;
-      overflow: hidden;
-      height: 40px;
+.main__container {
+  .countries {
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    border: 1px solid #666;
+    &.full {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      border: 1px solid;
-      border-radius: 3px;
-      background: #444;
-      border-color: #111111;
-      background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
-      box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        z-index: 2;
-        top: 14px;
-        right: 13px;
-        width: 0;
-        height: 0;
-        border: 4px dashed;
-        border-color: #888888 transparent;
-        pointer-events: none;
-      }
-      &::before {
-        border-bottom-style: solid;
-        border-top: none;
-        border-bottom-color: #aaa;
-      }
-      &::after {
-        margin-top: 7px;
-        border-top-style: solid;
-        border-bottom: none;
-        border-top-color: #aaa;
-      }
-      .dropdown-select {
+      padding: 15px;
+    }
+    &__title {
+      display: flex;
+      flex-wrap: wrap;
+      /* flex-direction: column; */
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px 17px 10px;
+      height: 120px;
+      .dropdown {
+        display: inline-block;
         position: relative;
-        width: 100%;
-        margin: 0;
-        padding: 6px 8px 6px 13px;
-        height: 100%;
-        font-size: 22px;
-        background: rgba(0, 0, 0, 0) !important;
-        border: 0;
-        border-radius: 0;
-        -webkit-appearance: none;
-        color: #ccc;
-        text-shadow: 0 1px black;
-        background: #444;
-        cursor: pointer;
-        &:focus {
-          z-index: 3;
-          width: 100%;
-          color: #ccc;
-          outline: none;
-          outline-offset: -2px;
-        }
-      }
-      .dropdown-select > option {
-        margin: 3px;
-        padding: 6px 8px;
+        overflow: hidden;
+        height: 40px;
+        width: calc(100% - 60px);
+        border: 1px solid;
         border-radius: 3px;
         background: #444;
-        text-shadow: 0 1px rgba(0, 0, 0, 0.4);
-        cursor: pointer;
-      }
-    }
-    .input-country {
-      width: 100%;
-      font-size: 1.2rem;
-      padding: 5px 10px;
-    }
-  }
-  &__content {
-    height: calc(100% - 200px);
-    .list-countries {
-      position: relative;
-      height: 100%;
-      overflow: auto;
-      border: 1px solid #666;
-      .item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.6rem 1rem;
-        color: #fff;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
-        background-color: #343a40;
-        border-bottom: 1px solid #666;
-        .text {
-          .count {
-            font-size: 1rem;
-            color: #f00;
-            font-weight: bold;
-          }
-        }
-        .flag {
-          width: 30px;
-          height: 20px;
-        }
-        &:hover,
-        &.active {
-          background-color: #272b30;
-        }
-        &.hide {
-          display: none;
-        }
-      }
-      &::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-        background: #1b1b1b;
-      }
-      &::-webkit-scrollbar-corner {
-        background: #1b1b1b;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: #707070;
-        border-radius: 1px;
-      }
-    }
-  }
-  &__buttons {
-    display: flex;
-    justify-content: space-between;
-    height: 80px;
-    .block-period,
-    .block-magnitudes {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin-top: 5px;
-      padding: 7px;
-      font-size: 14px;
-      border: 1px solid #666;
-      legend {
-        color: #aaaaaa;
-      }
-      &__btn {
-        position: relative;
-        width: 100%;
-        color: #aaaaaa;
-        input[type='radio'] {
+        border-color: #111111;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+        &::before,
+        &::after {
+          content: '';
           position: absolute;
-          visibility: hidden;
+          z-index: 2;
+          top: 14px;
+          right: 13px;
+          width: 0;
+          height: 0;
+          border: 4px dashed;
+          border-color: #888888 transparent;
+          pointer-events: none;
         }
-        label {
+        &::before {
+          border-bottom-style: solid;
+          border-top: none;
+          border-bottom-color: #aaa;
+        }
+        &::after {
+          margin-top: 7px;
+          border-top-style: solid;
+          border-bottom: none;
+          border-top-color: #aaa;
+        }
+        .dropdown-select {
           position: relative;
-          z-index: 1;
-          padding-left: 25px;
+          width: 100%;
+          margin: 0;
+          padding: 6px 8px 6px 13px;
+          height: 100%;
+          font-size: 22px;
+          background: rgba(0, 0, 0, 0) !important;
+          border: 0;
+          border-radius: 0;
+          -webkit-appearance: none;
+          color: #ccc;
+          text-shadow: 0 1px black;
+          background: #444;
           cursor: pointer;
-          transition: 0.2s linear;
-          &:hover {
-            color: #ffffff;
-          }
-          &:hover + .check {
-            border: 3px solid #ffffff;
+          &:focus {
+            z-index: 3;
+            width: 100%;
+            color: #ccc;
+            outline: none;
+            outline-offset: -2px;
           }
         }
-
-        .check {
-          position: absolute;
-          border: 3px solid #aaaaaa;
-          border-radius: 100%;
-          height: 17px;
-          width: 17px;
-          top: 0;
-          left: 0;
-          transition: border 0.25s linear;
-          &::before {
-            position: absolute;
-            content: '';
-            border-radius: 100%;
-            height: 7px;
-            width: 7px;
-            top: 2px;
-            left: 2px;
-            transition: 0.2s linear;
+        .dropdown-select > option {
+          margin: 3px;
+          padding: 6px 8px;
+          border-radius: 3px;
+          background: #444;
+          text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+          cursor: pointer;
+        }
+      }
+      .btn-full-countries {
+        width: 40px;
+        height: 40px;
+        background: #444;
+        border: 1px solid #111111;
+        border-radius: 4px;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        &:hover {
+          background: #333;
+        }
+        i {
+          color: #fff;
+        }
+      }
+      .input-country {
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 5px 10px;
+        margin-top: 15px;
+      }
+    }
+    &__content {
+      height: calc(100% - 200px);
+      .list-countries {
+        position: relative;
+        height: 100%;
+        overflow: auto;
+        border: 1px solid #666;
+        .item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.6rem 1rem;
+          color: #fff;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+          background-color: #343a40;
+          border-bottom: 1px solid #666;
+          .text {
+            .count {
+              font-size: 1rem;
+              color: #f00;
+              font-weight: bold;
+            }
           }
+          .flag {
+            width: 30px;
+            height: 20px;
+          }
+          &:hover,
+          &.active {
+            background-color: #272b30;
+          }
+          &.hide {
+            display: none;
+          }
+        }
+        &::-webkit-scrollbar {
+          height: 8px;
+          width: 8px;
+          background: #1b1b1b;
+        }
+        &::-webkit-scrollbar-corner {
+          background: #1b1b1b;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #707070;
+          border-radius: 1px;
         }
       }
     }
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 80px;
+      .block-period,
+      .block-magnitudes {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 5px;
+        padding: 7px;
+        font-size: 14px;
+        border: 1px solid #666;
+        legend {
+          color: #aaaaaa;
+        }
+        &__btn {
+          position: relative;
+          width: 100%;
+          color: #aaaaaa;
+          input[type='radio'] {
+            position: absolute;
+            visibility: hidden;
+          }
+          label {
+            position: relative;
+            z-index: 1;
+            padding-left: 25px;
+            cursor: pointer;
+            transition: 0.2s linear;
+            &:hover {
+              color: #ffffff;
+            }
+            &:hover + .check {
+              border: 3px solid #ffffff;
+            }
+          }
 
-    .block-period {
-      margin-right: 5px;
-    }
+          .check {
+            position: absolute;
+            border: 3px solid #aaaaaa;
+            border-radius: 100%;
+            height: 17px;
+            width: 17px;
+            top: 0;
+            left: 0;
+            transition: border 0.25s linear;
+            &::before {
+              position: absolute;
+              content: '';
+              border-radius: 100%;
+              height: 7px;
+              width: 7px;
+              top: 2px;
+              left: 2px;
+              transition: 0.2s linear;
+            }
+          }
+        }
+      }
 
-    input[type='radio']:checked ~ .check {
-      border: 3px solid #ffffff;
-    }
+      .block-period {
+        margin-right: 5px;
+      }
 
-    input[type='radio']:checked ~ .check::before {
-      background: #ffffff;
-    }
+      input[type='radio']:checked ~ .check {
+        border: 3px solid #ffffff;
+      }
 
-    input[type='radio']:checked ~ label {
-      color: #ffffff;
+      input[type='radio']:checked ~ .check::before {
+        background: #ffffff;
+      }
+
+      input[type='radio']:checked ~ label {
+        color: #ffffff;
+      }
     }
   }
 }

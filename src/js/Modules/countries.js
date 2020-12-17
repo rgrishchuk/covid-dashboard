@@ -1,26 +1,33 @@
 export default class Countries {
   constructor(state) {
     this.state = state;
+    this.container = document.querySelector('.countries');
     this.listCountries = document.querySelector('.list-countries');
     this.select = document.querySelector('.dropdown-select');
     this.btnAllPeriod = document.querySelector('.btn-all-period');
     this.btnLastDay = document.querySelector('.btn-last-day');
     this.btnTotalCases = document.querySelector('.btn-total-cases');
     this.btnPer100k = document.querySelector('.btn-per-100k');
+    this.btnFull = document.querySelector('.btn-full-countries');
   }
 
   render() {
     this.createListCountries();
     this.searchCountry();
-    this.setStateRate();
-    this.setStatePeriod();
-    this.setStatePopulation();
+    this.setState();
+    this.toggleSizeContainer();
   }
 
   update() {
     this.setValueSelect();
     this.setValueRadioBtn();
     this.createListCountries();
+  }
+
+  toggleSizeContainer() {
+    this.btnFull.addEventListener('click', () => {
+      this.container.classList.toggle('full');
+    });
   }
 
   createListCountries() {
@@ -45,12 +52,6 @@ export default class Countries {
       });
 
       this.listCountries.append(item);
-    });
-  }
-
-  setStateRate() {
-    this.select.addEventListener('change', (e) => {
-      this.state.set('currentRate', e.target.value);
     });
   }
 
@@ -100,21 +101,17 @@ export default class Countries {
     });
   }
 
-  setStatePeriod() {
-    this.btnAllPeriod.addEventListener('change', this.setState.bind(this, 'peridotTotal', true));
-    this.btnLastDay.addEventListener('change', this.setState.bind(this, 'peridotTotal', false));
-  }
-
-  setStatePopulation() {
-    this.btnTotalCases.addEventListener(
-      'change',
-      this.setState.bind(this, 'populationTotal', true),
-    );
-    this.btnPer100k.addEventListener('change', this.setState.bind(this, 'populationTotal', false));
-  }
-
-  setState(key, value) {
-    this.state.set(key, value);
+  setState() {
+    const setValue = (key, value) => {
+      this.state.set(key, value);
+    };
+    this.btnAllPeriod.addEventListener('change', setValue.bind(this, 'peridotTotal', true));
+    this.btnLastDay.addEventListener('change', setValue.bind(this, 'peridotTotal', false));
+    this.btnTotalCases.addEventListener('change', setValue.bind(this, 'populationTotal', true));
+    this.btnPer100k.addEventListener('change', setValue.bind(this, 'populationTotal', false));
+    this.select.addEventListener('change', (e) => {
+      this.state.set('currentRate', e.target.value);
+    });
   }
 
   setValueSelect() {
