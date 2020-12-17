@@ -1,317 +1,64 @@
 .keyboard {
   position: fixed;
-  z-index: 5;
   left: 0;
   bottom: 0;
+  z-index: 3;
   width: 100%;
   padding: 5px 0;
-  background: #29292c;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  background: #363838;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
   user-select: none;
   transition: bottom 0.4s;
-}
-
-.keyboard--hidden {
-  bottom: -100%;
-}
-
-.keyboard__keys {
-  text-align: center;
-}
-
-.keyboard__key {
-  height: 45px;
-  width: 6%;
-  max-width: 90px;
-  margin: 3px;
-  border-radius: 4px;
-  border: none;
-  background: rgb(0, 0, 0);
-  color: #ffffff;
-  font-family: cursive;
-  font-size: 1.05rem;
-  outline: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: top;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  transition: 0.2s ease-in-out;
-}
-
-.keyboard__key:active,
-.keyboard__key.active {
-  border: 1.4px solid #ffc600;
-  box-shadow: 0 0 1.2rem #ffc600;
-  color: #ffc600;
-}
-
-.keyboard__key--wide {
-  width: 12%;
-}
-
-.keyboard__key--enter {
-  width: 12%;
-  max-width: 150px;
-}
-
-.keyboard__key--shift {
-  width: 14%;
-  max-width: 180px;
-}
-
-.keyboard__key--en_ru {
-  font-family: monospace;
-  width: 9%;
-  max-width: 130px;
-}
-
-.radial-pulse {
-  animation: radial-pulse 2s infinite;
-}
-
-.keyboard__key--caps {
-  width: 8%;
-  font-size: 14px;
-  max-width: 120px;
-}
-
-.keyboard__key--extra-wide {
-  width: 41%;
-  max-width: 620px;
-}
-
-.keyboard__key--activatable::after {
-  content: '';
-  top: 6px;
-  right: 6px;
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 50%;
-}
-
-.keyboard__key--active::after {
-  background: #ffc600;
-}
-
-.keyboard__key--dark {
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.active-lang {
-  font-size: 22px;
-  font-weight: 600;
-  color: #ffc600;
-}
-
-.slash {
-  margin: 0 3px;
-}
-
-@keyframes radial-pulse-microphone {
-  0% {
-    box-shadow: 0 0 0 0px rgba(0, 180, 180, 0.699);
+  &--hidden {
+    bottom: -100%;
   }
-
-  100% {
-    box-shadow: 0 0 0 30px rgba(228, 228, 228, 0);
+  &__keys {
+    text-align: center;
   }
-}
-
-@media screen and (max-width: 1400px) {
-  .keyboard__key--extra-wide {
-    width: 40.5%;
-  }
-}
-
-@media screen and (max-width: 1300px) {
-  .keyboard__key--extra-wide {
-    width: 40%;
-  }
-}
-
-@media screen and (max-width: 1250px) {
-  .keyboard__key--extra-wide {
-    width: 39.5%;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .keyboard__key--caps {
-    width: 8%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 38.5%;
-  }
-}
-
-@media screen and (max-width: 1150px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 10.3%;
-  }
-
-  .keyboard__key--shift {
-    width: 14.5%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 37%;
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 10.5%;
-  }
-
-  .keyboard__key--shift {
-    width: 15%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 36.3%;
-  }
-}
-
-@media screen and (max-width: 1050px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 10.8%;
-  }
-
-  .keyboard__key--shift {
-    width: 15.5%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 35.6%;
-  }
-}
-
-@media screen and (max-width: 1030px) {
-  .keyboard__key--extra-wide {
-    width: 35%;
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  .keyboard__key--extra-wide {
-    width: 34.6%;
-  }
-}
-
-@media screen and (max-width: 980px) {
-  .keyboard__key--extra-wide {
-    width: 34.2%;
-  }
-}
-
-@media screen and (max-width: 950px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 11%;
-  }
-
-  .keyboard__key--shift {
-    width: 16%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 33.3%;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 11.3%;
-  }
-
-  .keyboard__key--shift {
-    width: 16.5%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 32%;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .keyboard__key--caps,
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 11.75%;
-  }
-
-  .keyboard__key--shift {
-    width: 17%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 30.5%;
-  }
-}
-
-@media screen and (max-width: 820px) {
-  .keyboard__key--extra-wide {
-    width: 30%;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .keyboard__key--caps {
-    width: 12%;
-  }
-  .keyboard__key {
-    font-family: monospace;
+  &__key {
     height: 45px;
-    margin: 2px;
-    font-size: 14px;
-  }
-
-  .keyboard__key--wide {
-    width: 10%;
-  }
-
-  .keyboard__key--enter,
-  .keyboard__key--en_ru {
-    width: 10.5%;
-  }
-
-  .keyboard__key--shift {
-    width: 16.5%;
-  }
-
-  .keyboard__key--extra-wide {
-    width: 32.5%;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .keyboard__key--caps {
-    width: 14%;
-  }
-  .keyboard__key {
-    font-size: 14px;
-  }
-  .keyboard__key--enter {
-    width: 8.7%;
-  }
-
-  .keyboard__key--en_ru {
-    width: 11.5%;
+    width: 6%;
+    max-width: 90px;
+    margin: 3px;
+    border-radius: 4px;
+    border: none;
+    background: #111;
+    color: #ffffff;
+    font-size: 1.05rem;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    &:active {
+      background: rgba(39, 39, 39, 0.719);
+    }
+    &--wide {
+      width: 12%;
+    }
+    &--extra-wide {
+      width: 36%;
+      max-width: 500px;
+    }
+    &--activatable::after {
+      content: '';
+      top: 10px;
+      right: 10px;
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(70, 70, 70, 0.4);
+      border-radius: 50%;
+    }
+    &--active::after {
+      background: #08ff00;
+    }
+    &--dark {
+      background: rgba(0, 0, 0, 0.25);
+    }
   }
 }
