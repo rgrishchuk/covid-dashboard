@@ -3,43 +3,26 @@
 /* eslint-disable new-cap */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
-export default class Map {
+export default class CovidMap {
   constructor(state) {
     this.state = state;
-    // this.loacalState = {};
-    // this.setLocalState();
     this.rateRadioButton = document.getElementsByName('map__rate');
     this.checkbox100k = document.getElementById('map__per100k');
     this.periodRadioButton = document.getElementsByName('map__period');
   }
-
-  // setLocalState() {
-  //   this.loacalState.currentRate = this.state.currentRate;
-  //   this.loacalState.currentCountry = this.state.currentCountry;
-  //   this.loacalState.peridotTotal = this.state.peridotTotal;
-  //   this.loacalState.populationTotal = this.state.populationTotal;
-  // }
-
-  // isChangedState() {
-  //   if (this.loacalState.currentRate !== this.state.currentRate
-  //     || this.loacalState.currentCountry !== this.state.currentCountry
-  //     || this.loacalState.peridotTotal !== this.state.peridotTotal
-  //     || this.loacalState.populationTotal !== this.state.populationTotal) return true;
-  //   return false;
-  // }
 
   getKey() {
     let key;
     if (this.state.periodTotal) key = 'Total';
     else key = 'New';
     if (this.state.currentRate === 'confirmed') key += 'Confirmed';
-    else if (this.state.index === 'recovered') key += 'Recovered';
-    else key += 'Deaths';
+    else if (this.state.currentRate === 'recovered') key += 'Recovered';
+    else if (this.state.currentRate === 'deaths') key += 'Deaths';
     if (!this.state.populationTotal) key += '100k';
     return key;
   }
 
-  getIndex(country) {
+  getRate(country) {
     const key = this.getKey();
     return country[key];
   }
@@ -123,6 +106,52 @@ export default class Map {
     return 'icon-circle color18';
   }
 
+  createMarker(country) {
+    const value = this.getRate(country);
+    const iconOptions = {
+      className: this.getIconClassName(value),
+      iconSize: this.getIconSize(value),
+    };
+    const customIcon = L.divIcon(iconOptions);
+
+    const markerOptions = {
+      title: `${country.Country}: ${value}`,
+      clickable: true,
+      draggable: false,
+      icon: customIcon,
+    };
+    const marker = new L.Marker(country.latlng, markerOptions);
+    marker.addEventListener('click', (e) => {
+      // eslint-disable-next-line no-underscore-dangle
+      const selCountry = this.findCountryByLatLng(e.target._latlng);
+      if (selCountry) this.state.set('currentCountry', selCountry.Country);
+      // console.log(e.target._latlng);
+    });
+    marker.bindPopup(`${country.Country}: ${value}`).openPopup();
+    return marker;
+  }
+
+  addMarkers() {
+    this.markers = [];
+    this.state.data.Countries.forEach((country) => {
+      const value = this.getRate(country);
+      const marker = this.createMarker(country);
+      marker.addTo(this.map);
+      this.markers.push(marker);
+    });
+  }
+
+  onMapClick(e) {
+    console.log(e.latlng);
+  }
+
+  findCountryByLatLng(latlng) {
+    return this.state.data.Countries.find((country) => {
+      if (country.latlng[0] === latlng.lat && country.latlng[1] === latlng.lng) return true;
+      return false;
+    });
+  }
+
   createMap() {
     const mapContent = document.querySelector('.map__content');
     const mapContainer = document.createElement('div');
@@ -143,25 +172,13 @@ export default class Map {
 
     const legend = this.createMapLegend();
     legend.addTo(this.map);
-
-    this.state.data.Countries.forEach((country) => {
-      const value = this.getIndex(country);
-      const iconOptions = {
-        className: this.getIconClassName(value),
-        iconSize: this.getIconSize(value),
-      };
-      const customIcon = L.divIcon(iconOptions);
-
-      const markerOptions = {
-        title: `${country.Country}: ${value}`,
-        clickable: true,
-        draggable: false,
-        icon: customIcon,
-      };
-      const marker = new L.Marker(country.latlng, markerOptions);
-      marker.bindPopup(`${country.Country}: ${value}`).openPopup();
-      marker.addTo(this.map);
-    });
+    this.addMarkers();
+    this.map.on('click', this.onMapClick);
+    // this.map.on('popupopen', (e) => {
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   const country = this.findCountryByLatLng(e.popup._source._latlng);
+    //   if (country) this.state.set('currentCountry', country.Country);
+    // });
   }
 
   addListeners() {
@@ -210,8 +227,49 @@ export default class Map {
     this.checkbox100k.checked = !this.state.populationTotal;
   }
 
+  deleteMarkers() {
+    this.markers.forEach((marker) => {
+      this.map.removeLayer(marker);
+    });
+    this.markers = [];
+  }
+
+  findCountryByName(country) {
+    return this.state.data.Countries.find((item) => {
+      if (item.Country === country) return true;
+      return false;
+    });
+  }
+
+  mapCenteredByCountry(country) {
+    const objCountry = this.findCountryByName(country);
+    if (objCountry) {
+      this.map.panTo(new L.LatLng(objCountry.latlng[0], objCountry.latlng[1]));
+    }
+  }
+
+  findMarker(latlng) {
+    console.log(latlng);
+    return this.markers.find((marker) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (marker._latlng.lat === latlng[0] && marker._latlng.lng === latlng[1]) return true;
+      return false;
+    });
+  }
+
+  updateMarkers() {
+    this.deleteMarkers();
+    this.addMarkers();
+    if (this.state.currentCountry !== 'global') {
+      this.mapCenteredByCountry(this.state.currentCountry);
+      const marker = this.findMarker(this.findCountryByName(this.state.currentCountry).latlng);
+      if (marker) marker.openPopup();
+    }
+  }
+
   update() {
     console.log('changed state!!!');
     this.updateButtonsState();
+    this.updateMarkers();
   }
 }
