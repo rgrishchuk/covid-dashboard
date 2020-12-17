@@ -11,7 +11,7 @@ async function getJSON(url) {
 }
 
 function getDataPer100k(value, all) {
-  return Math.ceil(((value * 100000) / all) * 10) / 10;
+  return Math.ceil(((value * 100000) / all) * 100) / 100;
 }
 
 export default async function getData() {
@@ -66,6 +66,7 @@ export default async function getData() {
         } else currCountry.timeline = null;
       });
     } else return null;
+    covidData.Countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
     return covidData;
   }
   return null;

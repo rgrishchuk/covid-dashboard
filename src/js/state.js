@@ -1,10 +1,10 @@
 export default class State {
   constructor() {
     this.data = null;
-    this.activeCountry = 'all';
-    this.period = 'all'; // all, day
-    this.per100k = false;
-    this.index = 'cases'; // cases, deaths, recovered
+    this.currentRate = 'confirmed';
+    this.currentCountry = 'global';
+    this.periodTotal = true;
+    this.populationTotal = true;
   }
 
   set(key, value) {
