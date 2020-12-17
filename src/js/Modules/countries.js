@@ -58,9 +58,9 @@ export default class Countries {
     const { peridotTotal, populationTotal, currentRate } = this.state;
     const calcDataPer100k = (num) => Math.round((num / el.population) * 100000);
     const getDataBasedOnSettings = (totalCases, newCases) => {
-      if (!peridotTotal && populationTotal) return calcDataPer100k(totalCases);
+      if (peridotTotal && !populationTotal) return calcDataPer100k(totalCases);
       if (!peridotTotal && !populationTotal) return calcDataPer100k(newCases);
-      if (peridotTotal && !populationTotal) return newCases;
+      if (!peridotTotal && populationTotal) return newCases;
       return totalCases;
     };
 
@@ -100,7 +100,10 @@ export default class Countries {
   }
 
   setStatePopulation() {
-    this.btnTotalCases.addEventListener('change', this.setState.bind(this, 'populationTotal', true));
+    this.btnTotalCases.addEventListener(
+      'change',
+      this.setState.bind(this, 'populationTotal', true),
+    );
     this.btnPer100k.addEventListener('change', this.setState.bind(this, 'populationTotal', false));
   }
 
