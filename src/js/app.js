@@ -1,6 +1,6 @@
 import State from './state';
 import Map from './Modules/map';
-import Countries from './Modules/countries';
+import Countries from './Modules/countries/countries';
 import Table from './Modules/table';
 import Chart from './Modules/chart';
 
@@ -13,7 +13,10 @@ function lastUpdate(date) {
     minute: 'numeric',
     second: 'numeric',
   };
-  document.querySelector('#lastUpdate').innerHTML = `Last updated: ${new Date(date).toLocaleString('en-US', options)}`;
+  document.querySelector('#lastUpdate').innerHTML = `Last updated: ${new Date(date).toLocaleString(
+    'en-US',
+    options,
+  )}`;
 }
 
 export default class App {
@@ -32,7 +35,9 @@ export default class App {
       lastUpdate(data.Date);
     }
     this.render();
-    document.addEventListener('updateState', () => { this.update(); });
+    document.addEventListener('updateState', () => {
+      this.update();
+    });
   }
 
   render() {

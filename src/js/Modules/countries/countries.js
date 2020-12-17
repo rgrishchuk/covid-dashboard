@@ -1,3 +1,5 @@
+import keyboard from './virtualKeyboard';
+
 export default class Countries {
   constructor(state) {
     this.state = state;
@@ -13,7 +15,7 @@ export default class Countries {
 
   render() {
     this.createListCountries();
-    this.searchCountry();
+    this.controlInput();
     this.setState();
     this.toggleSizeContainer();
   }
@@ -83,22 +85,28 @@ export default class Countries {
     return res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
-  searchCountry() {
+  controlInput() {
     const input = document.querySelector('.input-country');
     input.addEventListener('input', (e) => {
       const { value } = e.target;
-      /* eslint-disable-next-line */
-      for (const elem of this.listCountries.children) {
-        if (value.length === 0) elem.classList.remove('hide');
-
-        const textElem = elem.firstElementChild.lastElementChild.textContent;
-        if (textElem.toLowerCase().startsWith(value.toLowerCase())) {
-          elem.classList.remove('hide');
-        } else {
-          elem.classList.add('hide');
-        }
-      }
+      this.searchCountry(value, this.listCountries);
     });
+
+    keyboard.init(this.searchCountry, this.listCountries);
+  }
+  /* eslint-disable-next-line */
+  searchCountry(value, listCountries) {
+    /* eslint-disable-next-line */
+    for (const elem of listCountries.children) {
+      if (value.length === 0) elem.classList.remove('hide');
+
+      const textElem = elem.firstElementChild.lastElementChild.textContent;
+      if (textElem.toLowerCase().startsWith(value.toLowerCase())) {
+        elem.classList.remove('hide');
+      } else {
+        elem.classList.add('hide');
+      }
+    }
   }
 
   setState() {
