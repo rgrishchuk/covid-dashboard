@@ -1,8 +1,8 @@
 export default class Countries {
   constructor(state) {
     this.state = state;
-    this.currentSelect = 'confirmed';
     this.listCountries = document.querySelector('.list-countries');
+    this.select = document.querySelector('.dropdown-select');
     this.btnAllPeriod = document.querySelector('.btn-all-period');
     this.btnLastDay = document.querySelector('.btn-last-day');
     this.btnTotalCases = document.querySelector('.btn-total-cases');
@@ -12,16 +12,14 @@ export default class Countries {
   render() {
     this.createListCountries();
     this.searchCountry();
-    this.setDateRate();
-    this.setPeriod();
-    this.setPopulation();
+    this.setStateRate();
+    this.setStatePeriod();
+    this.setStatePopulation();
   }
 
   update() {
-    this.btnAllPeriod.checked = this.state.peridotTotal;
-    this.btnLastDay.checked = !this.state.peridotTotal;
-    this.btnTotalCases.checked = this.state.populationTotal;
-    this.btnPer100k.checked = !this.state.populationTotal;
+    this.setValueSelect();
+    this.setValueRadioBtn();
     this.createListCountries();
   }
 
@@ -32,7 +30,7 @@ export default class Countries {
       item.classList.add('item');
       item.innerHTML = `
       <div class="text">
-        <span class="count">${this.getDataRate(el)}</span>
+        <span class="count">${this.getDataForCountry(el)}</span>
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
@@ -50,41 +48,32 @@ export default class Countries {
     });
   }
 
-  setDateRate() {
-    const select = document.querySelector('.dropdown-select');
-    select.addEventListener('change', (e) => {
+  setStateRate() {
+    this.select.addEventListener('change', (e) => {
       this.state.set('currentRate', e.target.value);
     });
   }
 
-  getDataRate(el) {
-    let result;
+  getDataForCountry(el) {
     const { peridotTotal, populationTotal, currentRate } = this.state;
-    const getDataPer100k = (num) => Math.round((num / el.population) * 100000);
+    const calcDataPer100k = (num) => Math.round((num / el.population) * 100000);
+    const getDataBasedOnSettings = (totalCases, newCases) => {
+      if (!peridotTotal && populationTotal) return calcDataPer100k(totalCases);
+      if (!peridotTotal && !populationTotal) return calcDataPer100k(newCases);
+      if (peridotTotal && !populationTotal) return newCases;
+      return totalCases;
+    };
 
     switch (currentRate) {
       case 'confirmed':
-        if (peridotTotal && populationTotal) result = el.TotalConfirmed;
-        if (peridotTotal && !populationTotal) result = el.NewConfirmed;
-        if (!peridotTotal && populationTotal) result = getDataPer100k(el.TotalConfirmed);
-        if (!peridotTotal && !populationTotal) result = getDataPer100k(el.NewConfirmed);
-        break;
+        return getDataBasedOnSettings(el.TotalConfirmed, el.NewConfirmed);
       case 'deaths':
-        if (peridotTotal && populationTotal) result = el.TotalDeaths;
-        if (peridotTotal && !populationTotal) result = el.NewDeaths;
-        if (!peridotTotal && populationTotal) result = getDataPer100k(el.TotalDeaths);
-        if (!peridotTotal && !populationTotal) result = getDataPer100k(el.NewDeaths);
-        break;
+        return getDataBasedOnSettings(el.TotalDeaths, el.NewDeaths);
       case 'recovered':
-        if (peridotTotal && populationTotal) result = el.TotalRecovered;
-        if (peridotTotal && !populationTotal) result = el.NewRecovered;
-        if (!peridotTotal && populationTotal) result = getDataPer100k(el.TotalRecovered);
-        if (!peridotTotal && !populationTotal) result = getDataPer100k(el.NewRecovered);
-        break;
+        return getDataBasedOnSettings(el.TotalRecovered, el.NewRecovered);
       default:
+        return el.TotalConfirmed;
     }
-
-    return result;
   }
 
   searchCountry() {
@@ -105,23 +94,26 @@ export default class Countries {
     });
   }
 
-  setPeriod() {
-    this.btnAllPeriod.addEventListener('change', () => {
-      this.state.set('peridotTotal', true);
-    });
-
-    this.btnLastDay.addEventListener('change', () => {
-      this.state.set('peridotTotal', false);
-    });
+  setStatePeriod() {
+    this.btnAllPeriod.addEventListener('change', this.setState.bind(this, 'peridotTotal', true));
+    this.btnLastDay.addEventListener('change', this.setState.bind(this, 'peridotTotal', false));
   }
 
-  setPopulation() {
-    this.btnTotalCases.addEventListener('change', () => {
-      this.state.set('populationTotal', true);
-    });
+  setStatePopulation() {
+    this.btnTotalCases.addEventListener('change', this.setState.bind(this, 'populationTotal', true));
+    this.btnPer100k.addEventListener('change', this.setState.bind(this, 'populationTotal', false));
+  }
 
-    this.btnPer100k.addEventListener('change', () => {
-      this.state.set('populationTotal', false);
-    });
+  setState(key, value) {
+    this.state.set(key, value);
+  }
+
+  setValueSelect() {
+    this.select.value = this.state.currentRate;
+  }
+
+  setValueRadioBtn() {
+    this.btnAllPeriod.checked = this.state.peridotTotal;
+    this.btnTotalCases.checked = this.state.populationTotal;
   }
 }
