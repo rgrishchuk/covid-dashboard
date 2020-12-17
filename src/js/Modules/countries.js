@@ -55,6 +55,7 @@ export default class Countries {
   }
 
   getDataForCountry(el) {
+    let res;
     const { peridotTotal, populationTotal, currentRate } = this.state;
     const calcDataPer100k = (num) => Math.round((num / el.population) * 100000);
     const getDataBasedOnSettings = (totalCases, newCases) => {
@@ -66,14 +67,19 @@ export default class Countries {
 
     switch (currentRate) {
       case 'confirmed':
-        return getDataBasedOnSettings(el.TotalConfirmed, el.NewConfirmed);
+        res = getDataBasedOnSettings(el.TotalConfirmed, el.NewConfirmed);
+        break;
       case 'deaths':
-        return getDataBasedOnSettings(el.TotalDeaths, el.NewDeaths);
+        res = getDataBasedOnSettings(el.TotalDeaths, el.NewDeaths);
+        break;
       case 'recovered':
-        return getDataBasedOnSettings(el.TotalRecovered, el.NewRecovered);
+        res = getDataBasedOnSettings(el.TotalRecovered, el.NewRecovered);
+        break;
       default:
-        return el.TotalConfirmed;
+        res = el.TotalConfirmed;
     }
+
+    return res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   searchCountry() {

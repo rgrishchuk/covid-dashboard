@@ -40,10 +40,11 @@
                     <ul class="list-countries"></ul>
                 </div>
                 <div class="countries__buttons">
-                    <div class="block-period">
+                    <fieldset class="block-period">
+                        <legend><b>Period</b></legend>
                         <div class="block-period__btn">
                             <input class="btn-all-period" type="radio" id="x-option" name="period" checked>
-                            <label for="x-option">all period</label>
+                            <label for="x-option">all</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-period__btn">
@@ -51,11 +52,12 @@
                             <label for="y-option">last day</label>
                             <div class="check"></div>
                         </div>
-                    </div>
-                    <div class="block-magnitudes">
+                    </fieldset>
+                    <fieldset class="block-magnitudes">
+                        <legend><b>Magnitudes</b></legend>
                         <div class="block-magnitudes__btn">
                             <input class="btn-total-cases" type="radio" id="a-option" name="magnitudes" checked>
-                            <label for="a-option">total cases</label>
+                            <label for="a-option">total</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-magnitudes__btn">
@@ -63,7 +65,7 @@
                             <label for="b-option">per 100k</label>
                             <div class="check"></div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
             </section>
             <section class="map">
