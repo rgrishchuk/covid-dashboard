@@ -6,10 +6,10 @@ export default class Countries {
     this.container = document.querySelector('.countries');
     this.listCountries = document.querySelector('.list-countries');
     this.select = document.querySelector('.dropdown-select');
-    this.btnAllPeriod = document.querySelector('.btn-all-period');
-    this.btnLastDay = document.querySelector('.btn-last-day');
-    this.btnTotalCases = document.querySelector('.btn-total-cases');
-    this.btnPer100k = document.querySelector('.btn-per-100k');
+    this.btnAllPeriod = document.querySelector('.countries__buttons .btn-all-period');
+    this.btnLastDay = document.querySelector('.countries__buttons .btn-last-day');
+    this.btnTotalCases = document.querySelector('.countries__buttons .btn-total-cases');
+    this.btnPer100k = document.querySelector('.countries__buttons .btn-per-100k');
     this.btnFull = document.querySelector('.btn-full-countries');
   }
 
@@ -17,6 +17,7 @@ export default class Countries {
     this.createListCountries();
     this.searchCountry();
     this.setState();
+    this.setValueRadioBtn();
     this.toggleSizeContainer();
   }
 
@@ -43,7 +44,7 @@ export default class Countries {
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
-
+      // TODO add active item
       item.addEventListener('click', () => {
         /* eslint-disable-next-line */
         for (const elem of this.listCountries.children) {
@@ -81,7 +82,6 @@ export default class Countries {
       default:
         res = data.TotalConfirmed;
     }
-    console.log(res);
     return res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
@@ -129,6 +129,8 @@ export default class Countries {
 
   setValueRadioBtn() {
     this.btnAllPeriod.checked = this.state.peridotTotal;
+    this.btnLastDay.checked = !this.state.peridotTotal;
     this.btnTotalCases.checked = this.state.populationTotal;
+    this.btnPer100k.checked = !this.state.populationTotal;
   }
 }
