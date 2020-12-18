@@ -1,16 +1,16 @@
 .keyboard {
   position: fixed;
   left: 0;
-  bottom: 0;
+  bottom: -100%;
   z-index: 3;
   width: 100%;
   padding: 5px 0;
-  background: #363838;
+  background: #30333b;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
   user-select: none;
   transition: bottom 0.4s;
-  &--hidden {
-    bottom: -100%;
+  &--show {
+    bottom: 0;
   }
   &__keys {
     text-align: center;

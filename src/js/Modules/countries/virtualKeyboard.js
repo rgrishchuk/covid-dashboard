@@ -20,7 +20,7 @@ class Keyboard {
     this.elements.main = document.createElement('div');
     this.elements.keysContainer = document.createElement('div');
 
-    this.elements.main.classList.add('keyboard', 'keyboard--hidden');
+    this.elements.main.classList.add('keyboard');
     this.elements.keysContainer.classList.add('keyboard__keys');
     this.elements.keysContainer.appendChild(this.createKeys());
 
@@ -35,6 +35,7 @@ class Keyboard {
         searchCountry(this.inputCountry.value, listCountries);
       });
     });
+    this.closeMenu();
   }
 
   createKeys() {
@@ -159,14 +160,31 @@ class Keyboard {
     this.inputCountry.value = initialValue || '';
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
-    this.elements.main.classList.remove('keyboard--hidden');
+    this.elements.main.classList.add('keyboard--show');
   }
 
   close() {
     this.inputCountry.value = '';
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
-    this.elements.main.classList.add('keyboard--hidden');
+    this.elements.main.classList.remove('keyboard--show');
+  }
+
+  closeMenu() {
+    document.addEventListener('click', (e) => {
+      const { target } = e;
+      console.log(target);
+      const itsKeyboard = target === this.elements.main || this.elements.main.contains(target);
+      console.log('key', itsKeyboard);
+      const itsInputCountry = target === this.inputCountry;
+      console.log('input', itsInputCountry);
+      const keyboardIsActive = this.elements.main.classList.contains('keyboard--show');
+      console.log('active', keyboardIsActive);
+
+      if (!itsKeyboard && !itsInputCountry && keyboardIsActive) {
+        this.elements.main.classList.toggle('keyboard--show');
+      }
+    });
   }
 }
 
