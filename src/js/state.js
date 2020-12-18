@@ -3,7 +3,7 @@ export default class State {
     this.data = null;
     this.currentRate = 'confirmed';
     this.currentCountry = 'global';
-    this.peridotTotal = true;
+    this.periodTotal = true;
     this.populationTotal = true;
   }
 
@@ -19,13 +19,13 @@ export default class State {
       let keySort;
       switch (this.currentRate) {
         case 'confirmed':
-          keySort = this.peridotTotal ? 'TotalConfirmed' : 'NewConfirmed';
+          keySort = this.periodTotal ? 'TotalConfirmed' : 'NewConfirmed';
           break;
         case 'deaths':
-          keySort = this.peridotTotal ? 'TotalDeaths' : 'NewDeaths';
+          keySort = this.periodTotal ? 'TotalDeaths' : 'NewDeaths';
           break;
         case 'recovered':
-          keySort = this.peridotTotal ? 'TotalRecovered' : 'NewRecovered';
+          keySort = this.periodTotal ? 'TotalRecovered' : 'NewRecovered';
           break;
         default:
           keySort = 'TotalConfirmed';

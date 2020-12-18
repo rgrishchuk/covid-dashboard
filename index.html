@@ -47,7 +47,7 @@
                         <legend><b>Period</b></legend>
                         <div class="block-period__btn">
                             <input class="btn-all-period" type="radio" id="x-option" name="period-country">
-                            <label for=" x-option">all</label>
+                            <label for="x-option">all</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-period__btn">
@@ -79,7 +79,7 @@
             <div class="main__container__right">
                 <section class="table">
                     <div class="table__title">
-                        <h3 class="title"></h3>
+                        <div class="block-title"></div>
                         <button type="button" class="btn-full btn-full-table">
                             <i class="material-icons icon_full">fullscreen</i>
                         </button>
@@ -87,15 +87,15 @@
                     <div class="table__content">
                         <div class="item">
                             <h3 class="title">confirmed</h3>
-                            <span data-table="confirmed"></span>
+                            <span class="count red" data-table="confirmed"></span>
                         </div>
                         <div class="item">
                             <h3 class="title">deaths</h3>
-                            <span data-table="deaths"></span>
+                            <span class="count black" data-table="deaths"></span>
                         </div>
                         <div class="item">
                             <h3 class="title">recovered</h3>
-                            <span data-table="recovered"></span>
+                            <span class="count green" data-table="recovered"></span>
                         </div>
                     </div>
                     <div class="table__buttons">

@@ -1,7 +1,9 @@
+import components from '../../components/components';
 import keyboard from './virtualKeyboard';
 
 export default class Countries {
   constructor(state) {
+    this.curCountry = '';
     this.state = state;
     this.container = document.querySelector('.main__container .countries');
     this.listCountries = document.querySelector('.list-countries');
@@ -16,21 +18,16 @@ export default class Countries {
   render() {
     this.createListCountries();
     this.searchCountry();
-    this.setState();
-    this.setValueRadioBtn();
-    this.toggleSizeContainer();
+    this.setStateRate();
+    components.setValueRadioBtn(this);
+    components.setStatePeriodAndPopulation(this);
+    components.toggleSizeContainer(this.btnFull, this.container);
   }
 
   update() {
-    this.setValueSelect();
-    this.setValueRadioBtn();
     this.createListCountries();
-  }
-
-  toggleSizeContainer() {
-    this.btnFull.addEventListener('click', () => {
-      this.container.classList.toggle('full');
-    });
+    this.setValueSelect();
+    components.setValueRadioBtn(this);
   }
 
   createListCountries() {
@@ -40,49 +37,30 @@ export default class Countries {
       item.classList.add('item');
       item.innerHTML = `
       <div class="text">
-        <span class="count">${this.getDataCountry(el, this.state.currentRate)}</span>
+        <span class="count">
+        ${components.getDataCountry(this.state, el, this.state.currentRate)}
+        </span>
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
-      // TODO add active item
       item.addEventListener('click', () => {
-        /* eslint-disable-next-line */
-        for (const elem of this.listCountries.children) {
-          elem.classList.remove('active');
-        }
+        this.curCountry = el.Country;
         this.state.set('currentCountry', el.Country);
-        item.classList.add('active');
       });
 
+      if (this.curCountry) {
+        /* eslint-disable-next-line */
+        for (const elem of this.listCountries.children) {
+          const nameCountry = elem.firstElementChild.lastElementChild.textContent;
+          if (this.curCountry === nameCountry) {
+            elem.classList.add('active');
+          } else {
+            elem.classList.remove('active');
+          }
+        }
+      }
       this.listCountries.append(item);
     });
-  }
-
-  getDataCountry(data, currentRate) {
-    let res;
-    const { peridotTotal, populationTotal } = this.state;
-    const calcDataPer100k = (num) => Math.round((num / data.population) * 100000);
-    const getDataBasedOnSettings = (totalCases, newCases) => {
-      if (peridotTotal && !populationTotal) return calcDataPer100k(totalCases);
-      if (!peridotTotal && !populationTotal) return calcDataPer100k(newCases);
-      if (!peridotTotal && populationTotal) return newCases;
-      return totalCases;
-    };
-
-    switch (currentRate) {
-      case 'confirmed':
-        res = getDataBasedOnSettings(data.TotalConfirmed, data.NewConfirmed);
-        break;
-      case 'deaths':
-        res = getDataBasedOnSettings(data.TotalDeaths, data.NewDeaths);
-        break;
-      case 'recovered':
-        res = getDataBasedOnSettings(data.TotalRecovered, data.NewRecovered);
-        break;
-      default:
-        res = data.TotalConfirmed;
-    }
-    return res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   searchCountry() {
@@ -93,8 +71,8 @@ export default class Countries {
       for (const elem of listCountries.children) {
         if (value.length === 0) elem.classList.remove('hide');
 
-        const textElem = elem.firstElementChild.lastElementChild.textContent;
-        if (textElem.toLowerCase().startsWith(value.toLowerCase())) {
+        const nameCountry = elem.firstElementChild.lastElementChild.textContent;
+        if (nameCountry.toLowerCase().startsWith(value.toLowerCase())) {
           elem.classList.remove('hide');
         } else {
           elem.classList.add('hide');
@@ -110,14 +88,7 @@ export default class Countries {
     keyboard.init(search, this.listCountries, input);
   }
 
-  setState() {
-    const setValue = (key, value) => {
-      this.state.set(key, value);
-    };
-    this.btnAllPeriod.addEventListener('change', setValue.bind(this, 'peridotTotal', true));
-    this.btnLastDay.addEventListener('change', setValue.bind(this, 'peridotTotal', false));
-    this.btnTotalCases.addEventListener('change', setValue.bind(this, 'populationTotal', true));
-    this.btnPer100k.addEventListener('change', setValue.bind(this, 'populationTotal', false));
+  setStateRate() {
     this.select.addEventListener('change', (e) => {
       this.state.set('currentRate', e.target.value);
     });
@@ -125,12 +96,5 @@ export default class Countries {
 
   setValueSelect() {
     this.select.value = this.state.currentRate;
-  }
-
-  setValueRadioBtn() {
-    this.btnAllPeriod.checked = this.state.peridotTotal;
-    this.btnLastDay.checked = !this.state.peridotTotal;
-    this.btnTotalCases.checked = this.state.populationTotal;
-    this.btnPer100k.checked = !this.state.populationTotal;
   }
 }
