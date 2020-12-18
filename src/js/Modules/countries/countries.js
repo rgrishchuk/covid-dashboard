@@ -15,7 +15,7 @@ export default class Countries {
 
   render() {
     this.createListCountries();
-    this.controlInput();
+    this.searchCountry();
     this.setState();
     this.toggleSizeContainer();
   }
@@ -39,7 +39,7 @@ export default class Countries {
       item.classList.add('item');
       item.innerHTML = `
       <div class="text">
-        <span class="count">${this.getDataForCountry(el)}</span>
+        <span class="count">${this.getDataCountry(el, this.state.currentRate)}</span>
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
@@ -49,18 +49,18 @@ export default class Countries {
         for (const elem of this.listCountries.children) {
           elem.classList.remove('active');
         }
-        item.classList.add('active');
         this.state.set('currentCountry', el.Country);
+        item.classList.add('active');
       });
 
       this.listCountries.append(item);
     });
   }
 
-  getDataForCountry(el) {
+  getDataCountry(data, currentRate) {
     let res;
-    const { peridotTotal, populationTotal, currentRate } = this.state;
-    const calcDataPer100k = (num) => Math.round((num / el.population) * 100000);
+    const { peridotTotal, populationTotal } = this.state;
+    const calcDataPer100k = (num) => Math.round((num / data.population) * 100000);
     const getDataBasedOnSettings = (totalCases, newCases) => {
       if (peridotTotal && !populationTotal) return calcDataPer100k(totalCases);
       if (!peridotTotal && !populationTotal) return calcDataPer100k(newCases);
@@ -70,43 +70,44 @@ export default class Countries {
 
     switch (currentRate) {
       case 'confirmed':
-        res = getDataBasedOnSettings(el.TotalConfirmed, el.NewConfirmed);
+        res = getDataBasedOnSettings(data.TotalConfirmed, data.NewConfirmed);
         break;
       case 'deaths':
-        res = getDataBasedOnSettings(el.TotalDeaths, el.NewDeaths);
+        res = getDataBasedOnSettings(data.TotalDeaths, data.NewDeaths);
         break;
       case 'recovered':
-        res = getDataBasedOnSettings(el.TotalRecovered, el.NewRecovered);
+        res = getDataBasedOnSettings(data.TotalRecovered, data.NewRecovered);
         break;
       default:
-        res = el.TotalConfirmed;
+        res = data.TotalConfirmed;
     }
-
+    console.log(res);
     return res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
-  controlInput() {
+  searchCountry() {
     const input = document.querySelector('.input-country');
-    input.addEventListener('input', (e) => {
-      const { value } = e.target;
-      this.searchCountry(value, this.listCountries);
-    });
 
-    keyboard.init(this.searchCountry, this.listCountries);
-  }
-  /* eslint-disable-next-line */
-  searchCountry(value, listCountries) {
-    /* eslint-disable-next-line */
-    for (const elem of listCountries.children) {
-      if (value.length === 0) elem.classList.remove('hide');
+    function search(value, listCountries) {
+      /* eslint-disable-next-line */
+      for (const elem of listCountries.children) {
+        if (value.length === 0) elem.classList.remove('hide');
 
-      const textElem = elem.firstElementChild.lastElementChild.textContent;
-      if (textElem.toLowerCase().startsWith(value.toLowerCase())) {
-        elem.classList.remove('hide');
-      } else {
-        elem.classList.add('hide');
+        const textElem = elem.firstElementChild.lastElementChild.textContent;
+        if (textElem.toLowerCase().startsWith(value.toLowerCase())) {
+          elem.classList.remove('hide');
+        } else {
+          elem.classList.add('hide');
+        }
       }
     }
+
+    input.addEventListener('input', (e) => {
+      const { value } = e.target;
+      search(value, this.listCountries);
+    });
+
+    keyboard.init(search, this.listCountries, input);
   }
 
   setState() {

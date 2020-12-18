@@ -1,6 +1,5 @@
 class Keyboard {
   constructor() {
-    this.inputCountry = document.querySelector('.input-country');
     this.elements = {
       main: null,
       keysContainer: null,
@@ -16,7 +15,8 @@ class Keyboard {
     };
   }
 
-  init(searchCountry, listCountries) {
+  init(searchCountry, listCountries, input) {
+    this.inputCountry = input;
     this.elements.main = document.createElement('div');
     this.elements.keysContainer = document.createElement('div');
 
@@ -35,7 +35,7 @@ class Keyboard {
         searchCountry(this.inputCountry.value, listCountries);
       });
     });
-    this.closeMenu();
+    this.toggleKeyboard();
   }
 
   createKeys() {
@@ -164,22 +164,17 @@ class Keyboard {
   }
 
   close() {
-    this.inputCountry.value = '';
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
     this.elements.main.classList.remove('keyboard--show');
   }
 
-  closeMenu() {
+  toggleKeyboard() {
     document.addEventListener('click', (e) => {
       const { target } = e;
-      console.log(target);
       const itsKeyboard = target === this.elements.main || this.elements.main.contains(target);
-      console.log('key', itsKeyboard);
       const itsInputCountry = target === this.inputCountry;
-      console.log('input', itsInputCountry);
       const keyboardIsActive = this.elements.main.classList.contains('keyboard--show');
-      console.log('active', keyboardIsActive);
 
       if (!itsKeyboard && !itsInputCountry && keyboardIsActive) {
         this.elements.main.classList.toggle('keyboard--show');
