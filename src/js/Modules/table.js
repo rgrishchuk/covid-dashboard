@@ -1,6 +1,7 @@
 export default class Table {
   constructor(state) {
     this.state = state;
+    this.container = document.querySelector('.main__container .main__container__right .table');
     this.valueTable = document.querySelectorAll('.table__content .item span');
     this.radioBtn = document.querySelectorAll('input[data-radio-btn]');
     this.title = document.querySelector('.table__title .title');
@@ -8,10 +9,12 @@ export default class Table {
     this.btnLastDay = document.querySelector('.table__buttons .btn-last-day');
     this.btnTotalCases = document.querySelector('.table__buttons .btn-total-cases');
     this.btnPer100k = document.querySelector('.table__buttons .btn-per-100k');
+    this.btnFull = document.querySelector('.btn-full-table');
   }
 
   render() {
     this.renderTable();
+    this.toggleSizeContainer();
     this.setState();
     this.setValueRadioBtn();
   }
@@ -44,6 +47,12 @@ export default class Table {
   }
 
   /// Kopipasta
+
+  toggleSizeContainer() {
+    this.btnFull.addEventListener('click', () => {
+      this.container.classList.toggle('full');
+    });
+  }
 
   getDataCountry(data, currentRate) {
     let res;

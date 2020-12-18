@@ -3,7 +3,7 @@ import keyboard from './virtualKeyboard';
 export default class Countries {
   constructor(state) {
     this.state = state;
-    this.container = document.querySelector('.countries');
+    this.container = document.querySelector('.main__container .countries');
     this.listCountries = document.querySelector('.list-countries');
     this.select = document.querySelector('.dropdown-select');
     this.btnAllPeriod = document.querySelector('.countries__buttons .btn-all-period');
