@@ -1,8 +1,8 @@
 import State from './state';
-import CovidMap from './Modules/map';
-// import Countries from './Modules/countries';
-// import Table from './Modules/table';
-// import Chart from './Modules/chart';
+import Map from './Modules/map';
+import Countries from './Modules/countries/countries';
+import Table from './Modules/table';
+import Chart from './Modules/chart';
 
 function lastUpdate(date) {
   const options = {
@@ -13,7 +13,10 @@ function lastUpdate(date) {
     minute: 'numeric',
     second: 'numeric',
   };
-  document.querySelector('#lastUpdate').innerHTML = `Last updated: ${new Date(date).toLocaleString('en-US', options)}`;
+  document.querySelector('#lastUpdate').innerHTML = `Last updated: ${new Date(date).toLocaleString(
+    'en-US',
+    options,
+  )}`;
 }
 
 export default class App {
@@ -21,9 +24,9 @@ export default class App {
     this.state = new State();
     this.modules = [];
     this.modules.push(new CovidMap(this.state));
-    // this.modules.push(new Countries(this.state));
-    // this.modules.push(new Table(this.state));
-    // this.modules.push(new Chart(this.state));
+    this.modules.push(new Countries(this.state));
+    this.modules.push(new Table(this.state));
+    this.modules.push(new Chart(this.state));
   }
 
   init(data) {
@@ -32,7 +35,9 @@ export default class App {
       lastUpdate(data.Date);
     }
     this.render();
-    document.addEventListener('updateState', () => { this.update(); });
+    document.addEventListener('updateState', () => {
+      this.update();
+    });
   }
 
   render() {
