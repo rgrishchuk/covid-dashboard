@@ -34,36 +34,41 @@
                             <option value="recovered">Recovered</option>
                         </select>
                     </div>
+                    <button type="button" class="btn-full btn-full-countries">
+                        <i class="material-icons icon_full">fullscreen</i>
+                    </button>
                     <input class="input-country" type="text" placeholder="country search">
                 </div>
                 <div class="countries__content">
                     <ul class="list-countries"></ul>
                 </div>
                 <div class="countries__buttons">
-                    <div class="block-period">
+                    <fieldset class="block-period">
+                        <legend><b>Period</b></legend>
                         <div class="block-period__btn">
-                            <input class="btn-all-period" type="radio" id="x-option" name="period" checked>
-                            <label for="x-option">all period</label>
+                            <input class="btn-all-period" type="radio" id="x-option" name="period-country">
+                            <label for="x-option">all</label>
                             <div class="check"></div>
                         </div>
                         <div class="block-period__btn">
-                            <input class="btn-last-day" type="radio" id="y-option" name="period">
+                            <input class="btn-last-day" type="radio" id="y-option" name="period-country">
                             <label for="y-option">last day</label>
                             <div class="check"></div>
                         </div>
-                    </div>
-                    <div class="block-magnitudes">
-                        <div class="block-magnitudes__btn">
-                            <input class="btn-total-cases" type="radio" id="a-option" name="magnitudes" checked>
-                            <label for="a-option">total cases</label>
+                    </fieldset>
+                    <fieldset class="block-population">
+                        <legend><b>Population</b></legend>
+                        <div class="block-population__btn">
+                            <input class="btn-total-cases" type="radio" id="z-option" name="population-country">
+                            <label for="z-option">total</label>
                             <div class="check"></div>
                         </div>
-                        <div class="block-magnitudes__btn">
-                            <input class="btn-per-100k" type="radio" id="b-option" name="magnitudes">
-                            <label for="b-option">per 100k</label>
+                        <div class="block-population__btn">
+                            <input class="btn-per-100k" type="radio" id="q-option" name="population-country">
+                            <label for="q-option">per 100k</label>
                             <div class="check"></div>
                         </div>
-                    </div>
+                    </fieldset>
                 </div>
             </section>
             <section class="map">
@@ -73,9 +78,54 @@
             </section>
             <div class="main__container__right">
                 <section class="table">
-                    <div class="table__title"></div>
-                    <div class="table__content"></div>
-                    <div class="table__buttons"></div>
+                    <div class="table__title">
+                        <div class="block-title"></div>
+                        <button type="button" class="btn-full btn-full-table">
+                            <i class="material-icons icon_full">fullscreen</i>
+                        </button>
+                    </div>
+                    <div class="table__content">
+                        <div class="item">
+                            <h3 class="title">confirmed</h3>
+                            <span class="count red" data-table="confirmed"></span>
+                        </div>
+                        <div class="item">
+                            <h3 class="title">deaths</h3>
+                            <span class="count black" data-table="deaths"></span>
+                        </div>
+                        <div class="item">
+                            <h3 class="title">recovered</h3>
+                            <span class="count green" data-table="recovered"></span>
+                        </div>
+                    </div>
+                    <div class="table__buttons">
+                        <fieldset class="block-period">
+                            <legend><b>Period</b></legend>
+                            <div class="block-period__btn">
+                                <input class="btn-all-period" type="radio" id="a-option" name="period-table">
+                                <label for="a-option">all</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-period__btn">
+                                <input class="btn-last-day" type="radio" id="b-option" name="period-table">
+                                <label for="b-option">last day</label>
+                                <div class="check"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="block-population">
+                            <legend><b>Population</b></legend>
+                            <div class="block-population__btn">
+                                <input class="btn-total-cases" type="radio" id="c-option" name="population-table">
+                                <label for="c-option">total</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-population__btn">
+                                <input class="btn-per-100k" type="radio" id="d-option" name="population-table">
+                                <label for="d-option">per 100k</label>
+                                <div class="check"></div>
+                            </div>
+                        </fieldset>
+                    </div>
                 </section>
                 <section class="chart">
                     <div class="chart__title"></div>
