@@ -123,7 +123,6 @@ export default class CovidMap {
       // eslint-disable-next-line no-underscore-dangle
       const selCountry = this.findCountryByLatLng(e.target._latlng);
       if (selCountry) this.state.set('currentCountry', selCountry.Country);
-      // console.log(e.target._latlng);
     });
     marker.bindPopup(`${country.Country}: ${value}`).openPopup();
     return marker;
@@ -139,9 +138,9 @@ export default class CovidMap {
     });
   }
 
-  onMapClick(e) {
-    console.log(e.latlng);
-  }
+  // onMapClick(e) {
+  //   console.log(e.latlng);
+  // }
 
   findCountryByLatLng(latlng) {
     return this.state.data.Countries.find((country) => {
@@ -236,20 +235,20 @@ export default class CovidMap {
   addListeners() {
     this.rateRadioButton.forEach((button) => {
       button.addEventListener('change', () => {
-        console.log(`change ${button.value}`);
+        // console.log(`change ${button.value}`);
         this.state.set('currentRate', button.value);
       });
     });
     this.periodRadioButton.forEach((button) => {
       button.addEventListener('change', () => {
-        console.log(`change ${button.value}`);
+        // console.log(`change ${button.value}`);
         let value = false;
         if (button.value === 'all') value = true;
         this.state.set('periodTotal', value);
       });
     });
     this.checkbox100k.addEventListener('change', () => {
-      console.log(this.checkbox100k.checked);
+      // console.log(this.checkbox100k.checked);
       this.state.set('populationTotal', !this.checkbox100k.checked);
     });
   }
@@ -264,7 +263,7 @@ export default class CovidMap {
   }
 
   updateButtonsState() {
-    console.log('update buttons');
+    // console.log('update buttons');
     this.rateRadioButton.forEach((button) => {
       const btn = button;
       if (button.value === this.state.currentRate) {
@@ -301,7 +300,7 @@ export default class CovidMap {
   }
 
   findMarker(latlng) {
-    console.log(latlng);
+    // console.log(latlng);
     return this.markers.find((marker) => {
       // eslint-disable-next-line no-underscore-dangle
       if (marker._latlng.lat === latlng[0] && marker._latlng.lng === latlng[1]) return true;
@@ -334,7 +333,7 @@ export default class CovidMap {
   }
 
   update() {
-    console.log('changed state!!!');
+    // console.log('changed state!!!');
     this.updateButtonsState();
     this.updateMarkers();
     this.updateBorders();

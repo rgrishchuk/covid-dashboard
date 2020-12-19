@@ -1,5 +1,5 @@
 import State from './state';
-import Map from './Modules/map';
+import CovidMap from './Modules/map';
 import Countries from './Modules/countries/countries';
 import Table from './Modules/table';
 import Chart from './Modules/chart';
