@@ -36,7 +36,7 @@
         }
         .img-country {
           width: 40px;
-          height: 30px;
+          height: 24px;
           margin: 0 10px;
         }
       }
@@ -54,10 +54,9 @@
         font-weight: 700;
         border: 1px solid #666;
         background-color: #343a40;
-        text-shadow: 1px 1px 1px black, 0 0 1px rgb(54, 54, 54);
         .title {
           font-size: 20px;
-          text-transform: uppercase;
+          text-transform: capitalize;
         }
         span {
           font-size: 28px;
@@ -66,7 +65,8 @@
             color: rgb(201, 19, 19);
           }
           &.black {
-            color: rgb(22, 22, 22);
+            color: rgb(8, 8, 8);
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.096), 0 0 1px rgba(255, 255, 255, 0);
           }
           &.green {
             color: rgb(6, 197, 6);

@@ -15,14 +15,14 @@ class Keyboard {
     };
   }
 
-  init(searchCountry, listCountries, input) {
+  init(filterListCountry, ctx, input, search) {
     this.inputCountry = input;
     this.elements.main = document.createElement('div');
     this.elements.keysContainer = document.createElement('div');
 
     this.elements.main.classList.add('keyboard');
     this.elements.keysContainer.classList.add('keyboard__keys');
-    this.elements.keysContainer.appendChild(this.createKeys());
+    this.elements.keysContainer.appendChild(this.createKeys(search, ctx));
 
     this.elements.keys = this.elements.keysContainer.querySelectorAll('.keyboard__key');
 
@@ -32,13 +32,13 @@ class Keyboard {
     this.inputCountry.addEventListener('focus', () => {
       this.open(this.inputCountry.value, (currentValue) => {
         this.inputCountry.value = currentValue;
-        searchCountry(this.inputCountry.value, listCountries);
+        filterListCountry(this.inputCountry.value, ctx.listCountries);
       });
     });
     this.toggleKeyboard();
   }
 
-  createKeys() {
+  createKeys(search, ctx) {
     const fragment = document.createDocumentFragment();
     const keyLayout = [
       '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'backspace',
@@ -76,7 +76,8 @@ class Keyboard {
         case 'enter':
           keyElement.classList.add('keyboard__key--wide');
           keyElement.innerHTML = createIconHTML('keyboard_return');
-          keyElement.addEventListener('click', this.insertSymbol.bind(this, '\n', 1));
+          /* this.inputCountry.focus(); */
+          keyElement.addEventListener('click', () => { search(ctx, this.inputCountry.value); });
           break;
 
         case 'space':

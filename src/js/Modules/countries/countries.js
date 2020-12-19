@@ -3,7 +3,8 @@ import keyboard from './virtualKeyboard';
 
 export default class Countries {
   constructor(state) {
-    this.curCountry = '';
+    this.insideCurCountry = '';
+    this.valueInput = '';
     this.state = state;
     this.container = document.querySelector('.main__container .countries');
     this.listCountries = document.querySelector('.list-countries');
@@ -44,15 +45,15 @@ export default class Countries {
       </div>
       <img class="flag" src="${el.flag}">`;
       item.addEventListener('click', () => {
-        this.curCountry = el.Country;
+        this.insideCurCountry = el.Country;
         this.state.set('currentCountry', el.Country);
       });
 
-      if (this.curCountry) {
+      if (this.insideCurCountry) {
         /* eslint-disable-next-line */
         for (const elem of this.listCountries.children) {
           const nameCountry = elem.firstElementChild.lastElementChild.textContent;
-          if (this.curCountry === nameCountry) {
+          if (this.insideCurCountry === nameCountry) {
             elem.classList.add('active');
           } else {
             elem.classList.remove('active');
@@ -66,7 +67,7 @@ export default class Countries {
   searchCountry() {
     const input = document.querySelector('.input-country');
 
-    function search(value, listCountries) {
+    function filterListCountry(value, listCountries) {
       /* eslint-disable-next-line */
       for (const elem of listCountries.children) {
         if (value.length === 0) elem.classList.remove('hide');
@@ -80,12 +81,29 @@ export default class Countries {
       }
     }
 
-    input.addEventListener('input', (e) => {
-      const { value } = e.target;
-      search(value, this.listCountries);
+    function search(ctx, value) {
+      const elemCountry = ctx.state.data.Countries.find((el) => el.Country.toLowerCase() === value);
+      if (elemCountry !== undefined) {
+        ctx.insideCurCountry = elemCountry.Country;
+        ctx.state.set('currentCountry', elemCountry.Country);
+      }
+    }
+
+    input.addEventListener('input', (event1) => {
+      const { value } = event1.target;
+      this.valueInput = value;
+      filterListCountry(value, this.listCountries);
     });
 
-    keyboard.init(search, this.listCountries, input);
+    input.addEventListener('focus', () => {
+      document.addEventListener('keydown', (event2) => {
+        if (event2.keyCode === 13) {
+          search(this, this.valueInput);
+        }
+      });
+    });
+
+    keyboard.init(filterListCountry, this, input, search);
   }
 
   setStateRate() {
