@@ -1,5 +1,5 @@
 import State from './state';
-import Map from './Modules/map';
+import CovidMap from './Modules/map';
 import Countries from './Modules/countries/countries';
 import Table from './Modules/table';
 import Chart from './Modules/chart';
@@ -23,7 +23,7 @@ export default class App {
   constructor() {
     this.state = new State();
     this.modules = [];
-    this.modules.push(new Map(this.state));
+    this.modules.push(new CovidMap(this.state));
     this.modules.push(new Countries(this.state));
     this.modules.push(new Table(this.state));
     this.modules.push(new Chart(this.state));

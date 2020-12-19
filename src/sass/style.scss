@@ -7,6 +7,7 @@
     box-sizing: border-box;
     outline: none;
     font-family: 'Roboto', sans-serif;
+    user-select: none;
 }
 
 body {
@@ -27,4 +28,5 @@ body {
 @import "components/_table";
 @import "layout/_header";
 @import "layout/_main";
+@import "layout/_map";
 @import "layout/_footer";
