@@ -39,6 +39,7 @@ export default async function getData() {
       historical += `${item.CountryCode},`;
       const res = countriesData.find((country) => country.alpha2Code === item.CountryCode);
       if (res) {
+        curr.alpha3Code = res.alpha3Code;
         curr.latlng = res.latlng;
         curr.flag = res.flag;
         curr.population = res.population;

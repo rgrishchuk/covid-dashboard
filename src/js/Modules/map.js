@@ -1,8 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 /* eslint-disable new-cap */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
+// import countryBorders from '../Resources/countries.geojson';
+
 export default class CovidMap {
   constructor(state) {
     this.state = state;
@@ -25,11 +28,6 @@ export default class CovidMap {
   getRate(country) {
     const key = this.getKey();
     return country[key];
-  }
-
-  markerSize(value) {
-    if (value < 100) return 5;
-    return 10;
   }
 
   generateLabelsForLegend() {
@@ -152,6 +150,62 @@ export default class CovidMap {
     });
   }
 
+  findCountryByAlpha3Code(code) {
+    return this.state.data.Countries.find((country) => {
+      if (country.alpha3Code === code) return country;
+      return false;
+    });
+  }
+
+  findBorderCountry(country) {
+    return countryBorders.features.find((item) => {
+      if (item.properties.ISO_A3 === country.alpha3Code) return item.geometry;
+      return false;
+    });
+  }
+
+  addBorders() {
+    this.borders = [];
+    this.state.data.Countries.forEach((country) => {
+      const settings = {
+        fillColor: 'red',
+        color: 'red',
+        opacity: 0,
+        fillOpacity: 0,
+      };
+      const border = this.findBorderCountry(country);
+      if (border) {
+        const borderLayer = L.geoJSON(border, settings);
+        borderLayer.on({
+          mouseover: (e) => {
+            e.target.setStyle({
+              opacity: 1,
+              fillOpacity: 0.2,
+            });
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+              e.target.bringToFront();
+            }
+          },
+          mouseout: (e) => {
+            e.target.setStyle({
+              opacity: 0,
+              fillOpacity: 0,
+            });
+          },
+          click: (e) => {
+            this.map.fitBounds(e.target.getBounds());
+            const selCountry = this.findCountryByAlpha3Code(e.target.countryCode);
+            if (selCountry) this.state.set('currentCountry', selCountry.Country);
+          },
+        });
+        borderLayer.bindTooltip(`${country.Country}: ${this.getRate(country)}`, { sticky: true });
+        borderLayer.addTo(this.map);
+        borderLayer.countryCode = country.alpha3Code;
+        this.borders.push(borderLayer);
+      }
+    });
+  }
+
   createMap() {
     const mapContent = document.querySelector('.map__content');
     const mapContainer = document.createElement('div');
@@ -167,18 +221,16 @@ export default class CovidMap {
       worldCopyJump: true,
     };
     this.map = new L.map('map__container', mapOptions);
-    const layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-    this.map.addLayer(layer);
 
     const legend = this.createMapLegend();
     legend.addTo(this.map);
     this.addMarkers();
-    this.map.on('click', this.onMapClick);
-    // this.map.on('popupopen', (e) => {
-    //   // eslint-disable-next-line no-underscore-dangle
-    //   const country = this.findCountryByLatLng(e.popup._source._latlng);
-    //   if (country) this.state.set('currentCountry', country.Country);
-    // });
+    this.addBorders();
+
+    const mapboxAccessToken = 'pk.eyJ1IjoicnVzZyIsImEiOiJja2l1dnJibnExOGV2MnFzYzM0Mm5uMW0wIn0.OFkwnryOwE1hvAipLOZLLQ';
+    L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
+      id: 'mapbox/light-v9',
+    }).addTo(this.map);
   }
 
   addListeners() {
@@ -267,9 +319,24 @@ export default class CovidMap {
     }
   }
 
+  deleteBorders() {
+    this.borders.forEach((borderLayer) => {
+      this.map.removeLayer(borderLayer);
+    });
+  }
+
+  updateBorders() {
+    this.borders.forEach((borderLayer) => {
+      borderLayer.unbindTooltip();
+      const country = this.findCountryByAlpha3Code(borderLayer.countryCode);
+      if (country) borderLayer.bindTooltip(`${country.Country}: ${this.getRate(country)}`, { sticky: true });
+    });
+  }
+
   update() {
     console.log('changed state!!!');
     this.updateButtonsState();
     this.updateMarkers();
+    this.updateBorders();
   }
 }
