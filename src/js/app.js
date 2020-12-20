@@ -2,7 +2,7 @@ import State from './state';
 import CovidMap from './Modules/map';
 import Countries from './Modules/countries/countries';
 import Table from './Modules/table';
-import Chart from './Modules/chart';
+import CovidChart from './Modules/chart';
 
 function lastUpdate(date) {
   const options = {
@@ -26,7 +26,7 @@ export default class App {
     this.modules.push(new CovidMap(this.state));
     this.modules.push(new Countries(this.state));
     this.modules.push(new Table(this.state));
-    this.modules.push(new Chart(this.state));
+    this.modules.push(new CovidChart(this.state));
   }
 
   init(data) {

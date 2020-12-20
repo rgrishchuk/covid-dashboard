@@ -254,7 +254,7 @@ export default class CovidMap {
   }
 
   render() {
-    document.querySelector('.map #icon-full').addEventListener('click', () => {
+    document.querySelector('.map #icon-full-map').addEventListener('click', () => {
       document.querySelector('.map').classList.toggle('fullscreen');
       this.map.invalidateSize(true);
     });
