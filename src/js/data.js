@@ -15,29 +15,6 @@ function getDataPer100k(value, all) {
 }
 
 export default async function getData() {
-  // https://corona.lmao.ninja/v3/covid-19/countries
-
-  // const data = await getJSON('https://corona.lmao.ninja/v3/covid-19/countries');
-  // console.log(data);
-  // const newData = {};
-  // newData.Countries = [];
-  // if (Array.isArray(data)) {
-  //   data.forEach((item) => {
-  //     newData.Countries.push({
-  //       Country: item.country,
-  //       CountryCode: item.countryInfo.iso2,
-  //       NewConfirmed: item.todayCases,
-  //       NewDeaths: item.todayDeaths,
-  //       NewRecovered: item.todayRecovered,
-  //       TotalConfirmed: item.cases,
-  //       TotalDeaths: item.deaths,
-  //       TotalRecovered: item.recovered,
-  //       population: item.population,
-  //     });
-  //   });
-  // } else return null;
-  // console.log(newData);
-
   const covidData = await getJSON('https://api.covid19api.com/summary');
   const countriesData = await getJSON('https://restcountries.eu/rest/v2');
   if (covidData && covidData.Countries && Array.isArray(countriesData)) {
