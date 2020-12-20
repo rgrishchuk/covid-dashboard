@@ -28,6 +28,7 @@ export default class Countries {
   update() {
     this.createListCountries();
     this.setValueSelect();
+    this.setValueCountry();
     components.setValueRadioBtn(this);
   }
 
@@ -48,18 +49,6 @@ export default class Countries {
         this.insideCurCountry = el.Country;
         this.state.set('currentCountry', el.Country);
       });
-
-      if (this.insideCurCountry) {
-        /* eslint-disable-next-line */
-        for (const elem of this.listCountries.children) {
-          const nameCountry = elem.firstElementChild.lastElementChild.textContent;
-          if (this.insideCurCountry === nameCountry) {
-            elem.classList.add('active');
-          } else {
-            elem.classList.remove('active');
-          }
-        }
-      }
       this.listCountries.append(item);
     });
   }
@@ -110,6 +99,32 @@ export default class Countries {
     this.select.addEventListener('change', (e) => {
       this.state.set('currentRate', e.target.value);
     });
+  }
+
+  setValueCountry() {
+    let indexCurCountry;
+    const heightElem = this.listCountries.children[0].clientHeight + 1; // 1 = border
+    const elemList = this.listCountries.children;
+
+    if (this.state.currentCountry) {
+      for (let i = 0; i < elemList.length; i += 1) {
+        const textCountry = elemList[i].firstElementChild.lastElementChild.textContent;
+        if (this.state.currentCountry === textCountry) {
+          indexCurCountry = i;
+          elemList[i].classList.add('active');
+        } else {
+          elemList[i].classList.remove('active');
+        }
+      }
+    }
+
+    (function scrollCountryList() {
+      if (indexCurCountry >= 3) {
+        this.listCountries.scrollTo({ top: (indexCurCountry - 3) * heightElem, behavior: 'smooth' });
+      } else {
+        this.listCountries.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }.bind(this)());
   }
 
   setValueSelect() {

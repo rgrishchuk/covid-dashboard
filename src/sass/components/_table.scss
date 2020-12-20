@@ -1,9 +1,7 @@
 .main__container {
   .table {
-    width: 100%;
-    height: 100%;
     min-width: 450px;
-    border: 1px solid #666;
+    padding: 5px !important;
     &.full {
       position: fixed;
       top: 0;
@@ -66,7 +64,7 @@
           }
           &.black {
             color: rgb(8, 8, 8);
-            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.096), 0 0 1px rgba(255, 255, 255, 0);
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.096), 0 0 1px transparent;
           }
           &.green {
             color: rgb(6, 197, 6);
@@ -81,14 +79,3 @@
     }
   }
 }
-
-/* div {
-        &:nth-child(1) {
-          padding-left: 40px;
-        }
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3) {
-          text-align: left;
-        }
-      } */
