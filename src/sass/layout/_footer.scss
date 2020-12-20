@@ -3,4 +3,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .git {
+        margin: 0 20px 0 20px;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        a {
+            text-decoration: none;
+            &:visited, &:link  {
+                color: #aaaaaa;
+            }
+            &:hover {
+                color: #ffffff;
+            }
+        }
+
+        &__text {
+            margin-left: 5px;
+        }
+    }
+
+    .logo-rs {
+        width: 70px;
+    }
 }

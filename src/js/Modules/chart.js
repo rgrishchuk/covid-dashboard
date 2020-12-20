@@ -23,8 +23,8 @@ export default class CovidChart {
         ],
       },
       options: {
-        // responsive: false,
-        // maintainAspectRatio: false,
+        responsive: true,
+        maintainAspectRatio: false,
         legend: {
           labels: {
             fontColor: 'white',
@@ -51,7 +51,6 @@ export default class CovidChart {
         },
       },
     });
-    console.log(this.covidChart);
     this.updateChart();
   }
 
