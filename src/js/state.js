@@ -13,23 +13,22 @@ export default class State {
     document.dispatchEvent(new Event('updateState', { bubbles: true }));
   }
 
-  // TODO add sort per 100k
   sortCovidData(data) {
     return data.Countries.sort((a, b) => {
-      let keySort;
-      switch (this.currentRate) {
-        case 'confirmed':
-          keySort = this.periodTotal ? 'TotalConfirmed' : 'NewConfirmed';
-          break;
-        case 'deaths':
-          keySort = this.periodTotal ? 'TotalDeaths' : 'NewDeaths';
-          break;
-        case 'recovered':
-          keySort = this.periodTotal ? 'TotalRecovered' : 'NewRecovered';
-          break;
-        default:
-          keySort = 'TotalConfirmed';
-      }
+      const getKey = (typeSort = '') => {
+        switch (this.currentRate) {
+          case 'confirmed':
+            return this.periodTotal ? `TotalConfirmed${typeSort}` : `NewConfirmed${typeSort}`;
+          case 'deaths':
+            return this.periodTotal ? `TotalDeaths${typeSort}` : `NewDeaths${typeSort}`;
+          case 'recovered':
+            return this.periodTotal ? `TotalRecovered${typeSort}` : `NewRecovered${typeSort}`;
+          default:
+            return `TotalConfirmed${typeSort}`;
+        }
+      };
+
+      const keySort = this.populationTotal ? getKey() : getKey('100k');
 
       return b[keySort] - a[keySort];
     });
