@@ -1,3 +1,5 @@
+import components from './components/components';
+
 export default class State {
   constructor() {
     this.data = null;
@@ -15,21 +17,7 @@ export default class State {
 
   sortCovidData(data) {
     return data.Countries.sort((a, b) => {
-      const getKey = (typeSort = '') => {
-        switch (this.currentRate) {
-          case 'confirmed':
-            return this.periodTotal ? `TotalConfirmed${typeSort}` : `NewConfirmed${typeSort}`;
-          case 'deaths':
-            return this.periodTotal ? `TotalDeaths${typeSort}` : `NewDeaths${typeSort}`;
-          case 'recovered':
-            return this.periodTotal ? `TotalRecovered${typeSort}` : `NewRecovered${typeSort}`;
-          default:
-            return `TotalConfirmed${typeSort}`;
-        }
-      };
-
-      const keySort = this.populationTotal ? getKey() : getKey('100k');
-
+      const keySort = components.getKey.call(this, this.currentRate);
       return b[keySort] - a[keySort];
     });
   }

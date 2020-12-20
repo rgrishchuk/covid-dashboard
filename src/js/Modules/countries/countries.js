@@ -3,7 +3,6 @@ import keyboard from './virtualKeyboard';
 
 export default class Countries {
   constructor(state) {
-    this.insideCurCountry = '';
     this.valueInput = '';
     this.state = state;
     this.container = document.querySelector('.main__container .countries');
@@ -20,16 +19,16 @@ export default class Countries {
     this.createListCountries();
     this.searchCountry();
     this.setStateRate();
-    components.setValueRadioBtn(this);
-    components.setStatePeriodAndPopulation(this);
-    components.toggleSizeContainer(this.btnFull, this.container);
+    components.setValueRadioBtn.call(this);
+    components.setStatePeriodAndPopulation.call(this);
+    components.toggleSizeContainer.call(this);
   }
 
   update() {
     this.createListCountries();
     this.setValueSelect();
     this.setValueCountry();
-    components.setValueRadioBtn(this);
+    components.setValueRadioBtn.call(this);
   }
 
   createListCountries() {
@@ -40,13 +39,12 @@ export default class Countries {
       item.innerHTML = `
       <div class="text">
         <span class="count">
-        ${components.getDataCountry(this.state, el, this.state.currentRate)}
+        ${components.getDataCountry(this, el, this.state.currentRate)}
         </span>
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
       item.addEventListener('click', () => {
-        this.insideCurCountry = el.Country;
         this.state.set('currentCountry', el.Country);
       });
       this.listCountries.append(item);
@@ -70,12 +68,9 @@ export default class Countries {
       }
     }
 
-    function search(ctx, value) {
-      const elemCountry = ctx.state.data.Countries.find((el) => el.Country.toLowerCase() === value);
-      if (elemCountry !== undefined) {
-        ctx.insideCurCountry = elemCountry.Country;
-        ctx.state.set('currentCountry', elemCountry.Country);
-      }
+    function search(value) {
+      const elCountry = this.state.data.Countries.find((el) => el.Country.toLowerCase() === value);
+      if (elCountry !== undefined) this.state.set('currentCountry', elCountry.Country);
     }
 
     input.addEventListener('input', (event1) => {
@@ -87,7 +82,7 @@ export default class Countries {
     input.addEventListener('focus', () => {
       document.addEventListener('keydown', (event2) => {
         if (event2.keyCode === 13) {
-          search(this, this.valueInput);
+          search.call(this, this.valueInput);
         }
       });
     });
@@ -118,13 +113,15 @@ export default class Countries {
       }
     }
 
-    (function scrollCountryList() {
-      if (indexCurCountry >= 3) {
-        this.listCountries.scrollTo({ top: (indexCurCountry - 3) * heightElem, behavior: 'smooth' });
-      } else {
-        this.listCountries.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }.bind(this)());
+    this.scrollListCountries(indexCurCountry, heightElem);
+  }
+
+  scrollListCountries(indexCurCountry, heightElem) {
+    if (indexCurCountry >= 3) {
+      this.listCountries.scrollTo({ top: (indexCurCountry - 3) * heightElem, behavior: 'smooth' });
+    } else {
+      this.listCountries.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   setValueSelect() {

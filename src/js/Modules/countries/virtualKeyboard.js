@@ -77,7 +77,7 @@ class Keyboard {
           keyElement.classList.add('keyboard__key--wide');
           keyElement.innerHTML = createIconHTML('keyboard_return');
           /* this.inputCountry.focus(); */
-          keyElement.addEventListener('click', () => { search(ctx, this.inputCountry.value); });
+          keyElement.addEventListener('click', () => { search.call(ctx, this.inputCountry.value); });
           break;
 
         case 'space':
