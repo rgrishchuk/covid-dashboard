@@ -1,4 +1,6 @@
-const WORLD_POPULATION = 7795000000;
+import {
+  WORLD_POPULATION, API_COVID_GLOBAL, API_COUNTRIES, API_COVID_COUNTRIES, API_COVID_HISTORICAL,
+} from './config';
 
 async function getJSON(url) {
   try {
@@ -15,10 +17,10 @@ function getDataPer100k(value, all) {
 }
 
 export default async function getData() {
-  const covidData = await getJSON('https://api.covid19api.com/summary');
-  const countriesData = await getJSON('https://restcountries.eu/rest/v2');
+  const covidData = await getJSON(API_COVID_GLOBAL);
+  const countriesData = await getJSON(API_COUNTRIES);
   if (covidData && covidData.Countries && Array.isArray(countriesData)) {
-    const data = await getJSON('https://corona.lmao.ninja/v3/covid-19/countries');
+    const data = await getJSON(API_COVID_COUNTRIES);
     if (Array.isArray(data)) {
       covidData.Countries = [];
       data.forEach((item) => {
@@ -70,8 +72,8 @@ export default async function getData() {
       }
     });
     delete covidData.Message;
-    const histCountry = await getJSON(`https://disease.sh/v3/covid-19/historical/${historical}?lastdays=366`);
-    const histGlobal = await getJSON('https://disease.sh/v3/covid-19/historical/all?lastdays=366');
+    const histCountry = await getJSON(`${API_COVID_HISTORICAL}${historical}?lastdays=366`);
+    const histGlobal = await getJSON(`${API_COVID_HISTORICAL}all?lastdays=366`);
     if (histCountry && histGlobal) {
       covidData.Global.timeline = histGlobal;
       covidData.Countries.forEach((item) => {

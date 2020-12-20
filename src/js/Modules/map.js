@@ -4,7 +4,25 @@
 /* eslint-disable new-cap */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
-// import countryBorders from '../Resources/countries.geojson';
+
+const LABELS = ['<div class="color1"></div><span> + 5 000 000</span>',
+  '<div class="color2"></div><span> < 5 000 000</span>',
+  '<div class="color3"></div><span> < 1 000 000</span>',
+  '<div class="color4"></div><span> < 500 000</span>',
+  '<div class="color5"></div><span> < 250 000</span>',
+  '<div class="color6"></div><span> < 100 000</span>',
+  '<div class="color7"></div><span> < 50 000</span>',
+  '<div class="color8"></div><span> < 25 000</span>',
+  '<div class="color9"></div><span> < 10 000</span>',
+  '<div class="color10"></div><span> < 5 000</span>',
+  '<div class="color11"></div><span> < 2 500</span>',
+  '<div class="color12"></div><span> < 1 000</span>',
+  '<div class="color13"></div><span> < 500</span>',
+  '<div class="color14"></div><span> < 250</span>',
+  '<div class="color15"></div><span> < 100</span>',
+  '<div class="color16"></div><span> < 50</span>',
+  '<div class="color17"></div><span> < 25</span>',
+  '<div class="color18"></div><span> < 5</span>'];
 
 export default class CovidMap {
   constructor(state) {
@@ -30,33 +48,32 @@ export default class CovidMap {
     return country[key];
   }
 
-  generateLabelsForLegend() {
-    return ['<div class="color1"></div><span> + 5 000 000</span>',
-      '<div class="color2"></div><span> < 5 000 000</span>',
-      '<div class="color3"></div><span> < 1 000 000</span>',
-      '<div class="color4"></div><span> < 500 000</span>',
-      '<div class="color5"></div><span> < 250 000</span>',
-      '<div class="color6"></div><span> < 100 000</span>',
-      '<div class="color7"></div><span> < 50 000</span>',
-      '<div class="color8"></div><span> < 25 000</span>',
-      '<div class="color9"></div><span> < 10 000</span>',
-      '<div class="color10"></div><span> < 5 000</span>',
-      '<div class="color11"></div><span> < 2 500</span>',
-      '<div class="color12"></div><span> < 1 000</span>',
-      '<div class="color13"></div><span> < 500</span>',
-      '<div class="color14"></div><span> < 250</span>',
-      '<div class="color15"></div><span> < 100</span>',
-      '<div class="color16"></div><span> < 50</span>',
-      '<div class="color17"></div><span> < 25</span>',
-      '<div class="color18"></div><span> < 5</span>'];
-  }
+  // generateLabelsForLegend() {
+  //   return ['<div class="color1"></div><span> + 5 000 000</span>',
+  //     '<div class="color2"></div><span> < 5 000 000</span>',
+  //     '<div class="color3"></div><span> < 1 000 000</span>',
+  //     '<div class="color4"></div><span> < 500 000</span>',
+  //     '<div class="color5"></div><span> < 250 000</span>',
+  //     '<div class="color6"></div><span> < 100 000</span>',
+  //     '<div class="color7"></div><span> < 50 000</span>',
+  //     '<div class="color8"></div><span> < 25 000</span>',
+  //     '<div class="color9"></div><span> < 10 000</span>',
+  //     '<div class="color10"></div><span> < 5 000</span>',
+  //     '<div class="color11"></div><span> < 2 500</span>',
+  //     '<div class="color12"></div><span> < 1 000</span>',
+  //     '<div class="color13"></div><span> < 500</span>',
+  //     '<div class="color14"></div><span> < 250</span>',
+  //     '<div class="color15"></div><span> < 100</span>',
+  //     '<div class="color16"></div><span> < 50</span>',
+  //     '<div class="color17"></div><span> < 25</span>',
+  //     '<div class="color18"></div><span> < 5</span>'];
+  // }
 
   createMapLegend() {
     const legend = L.control({ position: 'bottomright' });
-    const labels = this.generateLabelsForLegend();
     legend.onAdd = (map) => {
       const div = L.DomUtil.create('div', 'map-legend');
-      div.innerHTML = labels.join('');
+      div.innerHTML = LABELS.join('');
       return div;
     };
     return legend;
@@ -137,10 +154,6 @@ export default class CovidMap {
       this.markers.push(marker);
     });
   }
-
-  // onMapClick(e) {
-  //   console.log(e.latlng);
-  // }
 
   findCountryByLatLng(latlng) {
     return this.state.data.Countries.find((country) => {
@@ -235,20 +248,17 @@ export default class CovidMap {
   addListeners() {
     this.rateRadioButton.forEach((button) => {
       button.addEventListener('change', () => {
-        // console.log(`change ${button.value}`);
         this.state.set('currentRate', button.value);
       });
     });
     this.periodRadioButton.forEach((button) => {
       button.addEventListener('change', () => {
-        // console.log(`change ${button.value}`);
         let value = false;
         if (button.value === 'all') value = true;
         this.state.set('periodTotal', value);
       });
     });
     this.checkbox100k.addEventListener('change', () => {
-      // console.log(this.checkbox100k.checked);
       this.state.set('populationTotal', !this.checkbox100k.checked);
     });
   }
@@ -263,7 +273,6 @@ export default class CovidMap {
   }
 
   updateButtonsState() {
-    // console.log('update buttons');
     this.rateRadioButton.forEach((button) => {
       const btn = button;
       if (button.value === this.state.currentRate) {
@@ -300,7 +309,6 @@ export default class CovidMap {
   }
 
   findMarker(latlng) {
-    // console.log(latlng);
     return this.markers.find((marker) => {
       // eslint-disable-next-line no-underscore-dangle
       if (marker._latlng.lat === latlng[0] && marker._latlng.lng === latlng[1]) return true;
@@ -333,7 +341,6 @@ export default class CovidMap {
   }
 
   update() {
-    // console.log('changed state!!!');
     this.updateButtonsState();
     this.updateMarkers();
     this.updateBorders();

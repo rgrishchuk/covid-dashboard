@@ -19,7 +19,8 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            height: 8%;
+            height: 15%;
+            padding: 5px;
             .icon_full {
                 font-size: 30px;
     
@@ -30,11 +31,13 @@
         }
 
         &__content {
-            height: 75%;
+            
             width: 100%;
 
             .chart__wrapper {
                 display: none;
+                height: 100%;
+                width: 100%;
                 &.active {
                     display: block;
                 }
@@ -57,7 +60,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 17%;
+            height: 20%;
             font-size: 14px;
     
             .btn-wrapper-flex-row {

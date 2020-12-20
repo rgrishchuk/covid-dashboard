@@ -1,3 +1,5 @@
+import { WORLD_POPULATION } from '../config';
+
 export default class CovidChart {
   constructor(state) {
     this.state = state;
@@ -7,45 +9,131 @@ export default class CovidChart {
   }
 
   createChart() {
-    this.ctx = document.getElementById('covidChart').getContext('2d');
+    const ctx = document.getElementById('covidChart').getContext('2d');
     // eslint-disable-next-line no-undef
-    this.covidChart = new Chart(this.ctx, {
-      type: 'bar',
+    this.covidChart = new Chart(ctx, {
+      type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1,
-        }],
+        datasets: [
+          {
+            label: '',
+            fill: false,
+            borderColor: 'red',
+          },
+        ],
       },
       options: {
+        // responsive: false,
+        // maintainAspectRatio: false,
+        legend: {
+          labels: {
+            fontColor: 'white',
+            fontSize: 18,
+          },
+        },
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true,
+              fontColor: 'white',
+              fontSize: 14,
+            },
+          }],
+          xAxes: [{
+            ticks: {
+              fontColor: 'white',
+              fontSize: 14,
+            },
+            type: 'time',
+            time: {
+              unit: 'month',
             },
           }],
         },
       },
     });
+    console.log(this.covidChart);
+    this.updateChart();
+  }
+
+  updateChart() {
     this.data = this.getData();
+    if (this.data) {
+      let color = '#080808';
+      const rate = this.getRateName();
+      if (rate === 'cases') color = '#c91313';
+      else if (rate === 'recovered') color = '#06c506';
+      let per100k = '';
+      if (this.state.populationTotal) per100k = 'in';
+      else per100k = 'per100k in';
+      const currCountry = this.state.currentCountry === 'global' ? 'World' : this.state.currentCountry;
+      this.covidChart.data.datasets[0].label = `COVID-19 ${this.state.currentRate} ${per100k} ${currCountry}`;
+      this.covidChart.data.datasets[0].borderColor = color;
+      this.covidChart.data.datasets[0].data = this.data;
+      this.covidChart.update();
+    }
     this.displayData();
   }
 
+  getRateName() {
+    let rate;
+    if (this.state.currentRate === 'confirmed') rate = 'cases';
+    else if (this.state.currentRate === 'recovered') rate = 'recovered';
+    else if (this.state.currentRate === 'deaths') rate = 'deaths';
+    return rate;
+  }
+
   getData() {
-    console.log(this.state);
-    let data = null;
+    let covidData = null;
+    let population = null;
     if (this.state.currentCountry === 'global') {
-      data = this.state.data.Global.timeline;
+      covidData = this.state.data.Global.timeline;
+      population = WORLD_POPULATION;
     } else {
-      data = this.state.data.Countries[this.state.currentCountry].timeline;
+      const currCountry = this.state.data.Countries.find((country) => {
+        if (country.Country === this.state.currentCountry) return country;
+        return false;
+      });
+      covidData = currCountry.timeline;
+      population = currCountry.population;
     }
-    return data;
+    if (!covidData) return null;
+
+    const key = this.getRateName();
+    covidData = covidData[key];
+    let data = [];
+    Object.keys(covidData).forEach((date) => {
+      data.push([date, covidData[date]]);
+    });
+
+    if (!this.state.periodTotal) {
+      const newData = [];
+      newData.push(data[0]);
+      for (let index = 1; index < data.length; index += 1) {
+        newData.push([data[index][0], data[index][1] - data[index - 1][1]]);
+      }
+      data = newData;
+    }
+
+    if (!this.state.populationTotal) {
+      data = data.map((item) => {
+        const newItem = item;
+        newItem[1] = Math.ceil(((item[1] * 100000) / population) * 100) / 100;
+        return newItem;
+      });
+    }
+
+    const result = [];
+    data.forEach((item) => {
+      const date = new Date(item[0]);
+      const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+      const month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+      const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+      result.push({ x: `${year}-${month}-${day}`, y: item[1] });
+    });
+    return result;
   }
 
   displayData() {
-    console.log(this.data);
     if (this.data) {
       document.getElementById('chart__wrapper').classList.add('active');
       document.getElementById('no_data').classList.remove('active');
@@ -55,8 +143,25 @@ export default class CovidChart {
     }
   }
 
+  addListeners() {
+    this.rateRadioButton.forEach((button) => {
+      button.addEventListener('change', () => {
+        this.state.set('currentRate', button.value);
+      });
+    });
+    this.periodRadioButton.forEach((button) => {
+      button.addEventListener('change', () => {
+        let value = false;
+        if (button.value === 'all') value = true;
+        this.state.set('periodTotal', value);
+      });
+    });
+    this.checkbox100k.addEventListener('change', () => {
+      this.state.set('populationTotal', !this.checkbox100k.checked);
+    });
+  }
+
   updateButtonsState() {
-    // console.log('update buttons');
     this.rateRadioButton.forEach((button) => {
       const btn = button;
       if (button.value === this.state.currentRate) {
@@ -76,11 +181,11 @@ export default class CovidChart {
       document.querySelector('.chart').classList.toggle('fullscreen');
     });
     this.createChart();
-    // console.log(this.state);
+    this.addListeners();
   }
 
   update() {
-    console.log('update Chart');
     this.updateButtonsState();
+    this.updateChart();
   }
 }

@@ -18,6 +18,13 @@
             align-items: center;
             justify-content: flex-end;
             height: 5%;
+            padding: 5px;
+            &__text {
+                width: 100%;
+                text-align: center;
+                font-size: 25px;
+                font-weight: 700;
+            }
             .icon_full {
                 font-size: 30px;
     
