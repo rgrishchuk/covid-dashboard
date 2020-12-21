@@ -336,4 +336,10 @@ export default class CovidMap {
     this.updateMarkers();
     this.updateBorders();
   }
+
+  reset() {
+    this.deleteBorders();
+    this.addBorders();
+    this.updateMarkers();
+  }
 }

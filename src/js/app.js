@@ -51,4 +51,22 @@ export default class App {
       module.update();
     });
   }
+
+  updateData(data) {
+    this.state.set.data = data;
+    this.state.data.Global.TotalDeaths = 0;
+    this.state.data.Countries[0].TotalDeaths = 0;
+    this.state.data.Countries[0].timeline = null;
+    // this.state.data.Countries.shift();
+    if (this.state.currentCountry !== 'global') {
+      const currCountry = this.state.data.Countries.find((country) => {
+        if (country.Country === this.state.currentCountry) return true;
+        return false;
+      });
+      if (!currCountry) this.state.currentCountry = 'global';
+    }
+    this.modules.forEach((module) => {
+      module.reset();
+    });
+  }
 }

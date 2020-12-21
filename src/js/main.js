@@ -3,6 +3,9 @@ import App from './app';
 
 const { getData } = require('./data');
 
+const UPDATE_INTERVAL = 12 * 60 * 60000;
+const UPDATE_INTERVAL_ON_ERROR = 5 * 60000;
+
 const app = new App();
 
 function showPreloader() {
@@ -27,6 +30,17 @@ function showError() {
 
 showPreloader();
 
+function updateData() {
+  showPreloader();
+  getData().then((data) => {
+    hidePreloader();
+    if (data) {
+      app.updateData(data);
+      setTimeout(updateData, UPDATE_INTERVAL);
+    } else setTimeout(updateData, UPDATE_INTERVAL_ON_ERROR);
+  });
+}
+
 window.onload = () => {
   document.querySelector('#error-button').addEventListener('click', () => {
     hideError();
@@ -36,7 +50,9 @@ window.onload = () => {
 
   getData().then((data) => {
     hidePreloader();
-    if (data) app.init(data);
-    else showError();
+    if (data) {
+      app.init(data);
+      setTimeout(updateData, UPDATE_INTERVAL);
+    } else showError();
   });
 };

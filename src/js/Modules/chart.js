@@ -194,4 +194,8 @@ export default class CovidChart {
     this.updateButtonsState();
     this.updateChart();
   }
+
+  reset() {
+    this.updateChart();
+  }
 }
