@@ -213,11 +213,6 @@ export default class CovidMap {
     this.addMarkers();
     this.addBorders();
 
-    // const mapboxAccessToken =
-    // 'pk.eyJ1IjoicnVzZyIsImEiOiJja2l1dnJibnExOGV2MnFzYzM0Mm5uMW0wIn0.OFkwnryOwE1hvAipLOZLLQ';
-    // L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
-    //   id: 'mapbox/light-v9',
-    // }).addTo(this.map);
     new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
   }
 

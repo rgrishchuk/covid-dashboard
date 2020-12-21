@@ -1,6 +1,5 @@
-import {
-  API_COVID, API_COUNTRIES,
-} from './config';
+const API_COVID = 'https://disease.sh/v3/covid-19/';
+const API_COUNTRIES = 'https://restcountries.eu/rest/v2';
 
 async function getJSON(url) {
   try {
@@ -16,7 +15,7 @@ function getDataPer100k(value, all) {
   return Math.ceil(((value * 100000) / all) * 100) / 100;
 }
 
-export default async function getData() {
+async function getData() {
   const covidData = {};
   let data = await getJSON(`${API_COVID}all`);
   if (data) {
