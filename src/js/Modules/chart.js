@@ -21,6 +21,15 @@ export default class CovidChart {
         ],
       },
       options: {
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          displayColors: false,
+        },
+        hover: {
+          mode: 'index',
+          intersect: false,
+        },
         responsive: true,
         maintainAspectRatio: false,
         legend: {
