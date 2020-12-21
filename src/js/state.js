@@ -1,4 +1,4 @@
-import components from './components/components';
+const { components } = require('./components/components');
 
 export default class State {
   constructor() {

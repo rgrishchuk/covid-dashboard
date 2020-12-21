@@ -1,12 +1,14 @@
 class Components {
   getKey(currentRate) {
     const state = this.state === undefined ? this : this.state;
+
     let key = state.periodTotal ? 'Total' : 'New';
     if (currentRate === 'confirmed') key += 'Confirmed';
     if (currentRate === 'recovered') key += 'Recovered';
     if (currentRate === 'deaths') key += 'Deaths';
     if (!state.populationTotal) key += '100k';
-    return key;
+
+    return currentRate === undefined ? '' : key;
   }
 
   getDataCountry(ctx, elem, currentRate) {
@@ -41,4 +43,4 @@ class Components {
 
 const components = new Components();
 
-export default components;
+module.exports = { components };

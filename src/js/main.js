@@ -1,6 +1,7 @@
 import '../sass/style.scss';
 import App from './app';
-import getData from './data';
+
+const { getData } = require('./data');
 
 const app = new App();
 

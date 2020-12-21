@@ -1,5 +1,6 @@
-import components from '../../components/components';
 import keyboard from './virtualKeyboard';
+
+const { components } = require('../../components/components');
 
 export default class Countries {
   constructor(state) {
