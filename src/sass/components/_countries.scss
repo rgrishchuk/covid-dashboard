@@ -6,7 +6,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 3;
+      z-index: 1002;
       width: 100%;
       padding: 15px;
     }
@@ -33,7 +33,7 @@
         &::after {
           content: '';
           position: absolute;
-          z-index: 2;
+          z-index: 1001;
           top: 14px;
           right: 13px;
           width: 0;
@@ -69,7 +69,7 @@
           background: #444;
           cursor: pointer;
           &:focus {
-            z-index: 3;
+            z-index: 1002;
             width: 100%;
             color: #ccc;
             outline: none;

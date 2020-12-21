@@ -55,15 +55,15 @@ export default class Countries {
     const input = document.querySelector('.input-country');
 
     function filterListCountry(value, listCountries) {
-      /* eslint-disable-next-line */
-      for (const elem of listCountries.children) {
-        if (value.length === 0) elem.classList.remove('hide');
+      const listElem = listCountries.children;
+      for (let i = 0; i < listElem.length; i += 1) {
+        if (value.length === 0) listElem[i].classList.remove('hide');
 
-        const nameCountry = elem.firstElementChild.lastElementChild.textContent;
+        const nameCountry = listElem[i].firstElementChild.lastElementChild.textContent;
         if (nameCountry.toLowerCase().startsWith(value.toLowerCase())) {
-          elem.classList.remove('hide');
+          listElem[i].classList.remove('hide');
         } else {
-          elem.classList.add('hide');
+          listElem[i].classList.add('hide');
         }
       }
     }
@@ -83,6 +83,8 @@ export default class Countries {
       document.addEventListener('keydown', (event2) => {
         if (event2.keyCode === 13) {
           search.call(this, this.valueInput);
+          keyboard.close();
+          input.blur();
         }
       });
     });

@@ -5,7 +5,6 @@ export default class Table {
     this.state = state;
     this.container = document.querySelector('.main__container .main__container__right .table');
     this.valueTable = document.querySelectorAll('.table__content .item span');
-    this.radioBtn = document.querySelectorAll('input[data-radio-btn]');
     this.blockTitle = document.querySelector('.table__title .block-title');
     this.btnAllPeriod = document.querySelector('.table__buttons .btn-all-period');
     this.btnLastDay = document.querySelector('.table__buttons .btn-last-day');
