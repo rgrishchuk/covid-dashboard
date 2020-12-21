@@ -1,5 +1,3 @@
-import { WORLD_POPULATION } from '../config';
-
 export default class CovidChart {
   constructor(state) {
     this.state = state;
@@ -86,7 +84,7 @@ export default class CovidChart {
     let population = null;
     if (this.state.currentCountry === 'global') {
       covidData = this.state.data.Global.timeline;
-      population = WORLD_POPULATION;
+      population = this.state.data.Global.population;
     } else {
       const currCountry = this.state.data.Countries.find((country) => {
         if (country.Country === this.state.currentCountry) return country;
