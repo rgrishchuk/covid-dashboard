@@ -1,4 +1,5 @@
-const WORLD_POPULATION = 7795000000;
+const API_COVID = 'https://disease.sh/v3/covid-19/';
+const API_COUNTRIES = 'https://restcountries.eu/rest/v2';
 
 async function getJSON(url) {
   try {
@@ -15,62 +16,90 @@ function getDataPer100k(value, all) {
 }
 
 async function getData() {
-  const covidData = await getJSON('https://api.covid19api.com/summary');
-  const countriesData = await getJSON('https://restcountries.eu/rest/v2');
-  if (covidData && covidData.Countries && Array.isArray(countriesData)) {
-    let historical = '';
-
+  const covidData = {};
+  let data = await getJSON(`${API_COVID}all`);
+  if (data) {
+    covidData.Global = {};
+    covidData.Global.population = data.population;
+    covidData.Global.NewConfirmed = data.todayCases;
+    covidData.Global.NewDeaths = data.todayDeaths;
+    covidData.Global.NewRecovered = data.todayRecovered;
+    covidData.Global.TotalConfirmed = data.cases;
+    covidData.Global.TotalDeaths = data.deaths;
+    covidData.Global.TotalRecovered = data.recovered;
+    covidData.Date = data.updated;
     covidData.Global.NewConfirmed100k = getDataPer100k(covidData.Global.NewConfirmed,
-      WORLD_POPULATION);
+      covidData.Global.population);
     covidData.Global.NewDeaths100k = getDataPer100k(covidData.Global.NewDeaths,
-      WORLD_POPULATION);
+      covidData.Global.population);
     covidData.Global.NewRecovered100k = getDataPer100k(covidData.Global.NewRecovered,
-      WORLD_POPULATION);
+      covidData.Global.population);
     covidData.Global.TotalConfirmed100k = getDataPer100k(covidData.Global.TotalConfirmed,
-      WORLD_POPULATION);
+      covidData.Global.population);
     covidData.Global.TotalDeaths100k = getDataPer100k(covidData.Global.TotalDeaths,
-      WORLD_POPULATION);
+      covidData.Global.population);
     covidData.Global.TotalRecovered100k = getDataPer100k(covidData.Global.TotalRecovered,
-      WORLD_POPULATION);
-
+      covidData.Global.population);
+  } else return null;
+  data = await getJSON(`${API_COVID}countries`);
+  if (Array.isArray(data)) {
+    covidData.Countries = [];
+    data.forEach((item) => {
+      covidData.Countries.push({
+        Country: item.country,
+        CountryCode: item.countryInfo.iso2,
+        NewConfirmed: item.todayCases,
+        NewDeaths: item.todayDeaths,
+        NewRecovered: item.todayRecovered,
+        TotalConfirmed: item.cases,
+        TotalDeaths: item.deaths,
+        TotalRecovered: item.recovered,
+        NewConfirmed100k: getDataPer100k(item.todayCases, item.population),
+        NewDeaths100k: getDataPer100k(item.todayDeaths, item.population),
+        NewRecovered100k: getDataPer100k(item.todayRecovered, item.population),
+        TotalConfirmed100k: getDataPer100k(item.cases, item.population),
+        TotalDeaths100k: getDataPer100k(item.deaths, item.population),
+        TotalRecovered100k: getDataPer100k(item.recovered, item.population),
+        population: item.population,
+      });
+    });
+  } else return null;
+  let historical = '';
+  const countriesData = await getJSON(API_COUNTRIES);
+  if (Array.isArray(countriesData)) {
     covidData.Countries.forEach((item) => {
       const curr = item;
-      delete curr.Premium;
       historical += `${item.CountryCode},`;
       const res = countriesData.find((country) => country.alpha2Code === item.CountryCode);
       if (res) {
         curr.alpha3Code = res.alpha3Code;
         curr.latlng = res.latlng;
         curr.flag = res.flag;
-        curr.population = res.population;
-        curr.NewConfirmed100k = getDataPer100k(curr.NewConfirmed, curr.population);
-        curr.NewDeaths100k = getDataPer100k(curr.NewDeaths, curr.population);
-        curr.NewRecovered100k = getDataPer100k(curr.NewRecovered, curr.population);
-        curr.TotalConfirmed100k = getDataPer100k(curr.TotalConfirmed, curr.population);
-        curr.TotalDeaths100k = getDataPer100k(curr.TotalDeaths, curr.population);
-        curr.TotalRecovered100k = getDataPer100k(curr.TotalRecovered, curr.population);
       }
     });
-    delete covidData.Message;
-    const histCountry = await getJSON(`https://disease.sh/v3/covid-19/historical/${historical}?lastdays=366`);
-    const histGlobal = await getJSON('https://disease.sh/v3/covid-19/historical/all?lastdays=366');
-    if (histCountry && histGlobal) {
-      covidData.Global.timeline = histGlobal;
-      covidData.Countries.forEach((item) => {
-        const currCountry = item;
-        const res = histCountry.find((curr) => {
-          if (curr && curr.country === item.Country) return true;
-          return false;
-        });
-        if (res) {
-          currCountry.timeline = res.timeline;
-        } else currCountry.timeline = null;
+  } else return null;
+  const histCountry = await getJSON(`${API_COVID}historical/${historical}?lastdays=366`);
+  const histGlobal = await getJSON(`${API_COVID}historical/all?lastdays=366`);
+  if (histCountry && histGlobal) {
+    covidData.Global.timeline = histGlobal;
+    covidData.Countries.forEach((item) => {
+      const currCountry = item;
+      const res = histCountry.find((curr) => {
+        if (curr && curr.country === item.Country) return true;
+        return false;
       });
-    } else return null;
-    covidData.Countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
-    return covidData;
-  }
-  return null;
+      if (res) {
+        currCountry.timeline = res.timeline;
+      } else currCountry.timeline = null;
+    });
+  } else return null;
+  const newData = [];
+  covidData.Countries.forEach((item) => {
+    if (item.latlng) newData.push(item);
+  });
+  covidData.Countries = newData;
+  covidData.Countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
+  return covidData;
 }
 
 module.exports = { getData, getJSON, getDataPer100k };
