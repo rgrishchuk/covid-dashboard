@@ -72,9 +72,16 @@ function createMapLegend() {
   return legend;
 }
 
+// function findBorderCountry(country) {
+//   return countryBorders.features.find((item) => {
+//     if (item.properties.ISO_A3 === country.alpha3Code) return item.geometry;
+//     return false;
+//   });
+// }
+
 function findBorderCountry(country) {
   return countryBorders.features.find((item) => {
-    if (item.properties.ISO_A3 === country.alpha3Code) return item.geometry;
+    if (item.id === country.alpha3Code) return item.geometry;
     return false;
   });
 }
