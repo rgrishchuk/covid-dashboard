@@ -72,13 +72,6 @@ function createMapLegend() {
   return legend;
 }
 
-// function findBorderCountry(country) {
-//   return countryBorders.features.find((item) => {
-//     if (item.properties.ISO_A3 === country.alpha3Code) return item.geometry;
-//     return false;
-//   });
-// }
-
 function findBorderCountry(country) {
   return countryBorders.features.find((item) => {
     if (item.id === country.alpha3Code) return item.geometry;
@@ -109,79 +102,6 @@ export default class CovidMap {
     return country[key];
   }
 
-  // generateLabelsForLegend() {
-  //   return ['<div class="color1"></div><span> + 5 000 000</span>',
-  //     '<div class="color2"></div><span> < 5 000 000</span>',
-  //     '<div class="color3"></div><span> < 1 000 000</span>',
-  //     '<div class="color4"></div><span> < 500 000</span>',
-  //     '<div class="color5"></div><span> < 250 000</span>',
-  //     '<div class="color6"></div><span> < 100 000</span>',
-  //     '<div class="color7"></div><span> < 50 000</span>',
-  //     '<div class="color8"></div><span> < 25 000</span>',
-  //     '<div class="color9"></div><span> < 10 000</span>',
-  //     '<div class="color10"></div><span> < 5 000</span>',
-  //     '<div class="color11"></div><span> < 2 500</span>',
-  //     '<div class="color12"></div><span> < 1 000</span>',
-  //     '<div class="color13"></div><span> < 500</span>',
-  //     '<div class="color14"></div><span> < 250</span>',
-  //     '<div class="color15"></div><span> < 100</span>',
-  //     '<div class="color16"></div><span> < 50</span>',
-  //     '<div class="color17"></div><span> < 25</span>',
-  //     '<div class="color18"></div><span> < 5</span>'];
-  // }
-
-  // createMapLegend() {
-  //   const legend = L.control({ position: 'bottomright' });
-  //   legend.onAdd = (map) => {
-  //     const div = L.DomUtil.create('div', 'map-legend');
-  //     div.innerHTML = LABELS.join('');
-  //     return div;
-  //   };
-  //   return legend;
-  // }
-
-  // getIconSize(value) {
-  //   if (value > 5000000) return [50, 50];
-  //   if (value > 1000000) return [48, 48];
-  //   if (value > 500000) return [46, 46];
-  //   if (value > 250000) return [44, 44];
-  //   if (value > 100000) return [42, 42];
-  //   if (value > 50000) return [40, 40];
-  //   if (value > 25000) return [38, 38];
-  //   if (value > 10000) return [36, 36];
-  //   if (value > 5000) return [34, 34];
-  //   if (value > 2500) return [32, 32];
-  //   if (value > 1000) return [30, 30];
-  //   if (value > 500) return [28, 28];
-  //   if (value > 250) return [26, 26];
-  //   if (value > 100) return [24, 24];
-  //   if (value > 50) return [22, 22];
-  //   if (value > 25) return [20, 20];
-  //   if (value > 5) return [18, 18];
-  //   return [15, 15];
-  // }
-
-  // getIconClassName(value) {
-  //   if (value > 5000000) return 'icon-circle color1';
-  //   if (value > 1000000) return 'icon-circle color2';
-  //   if (value > 500000) return 'icon-circle color3';
-  //   if (value > 250000) return 'icon-circle color4';
-  //   if (value > 100000) return 'icon-circle color5';
-  //   if (value > 50000) return 'icon-circle color6';
-  //   if (value > 25000) return 'icon-circle color7';
-  //   if (value > 10000) return 'icon-circle color8';
-  //   if (value > 5000) return 'icon-circle color9';
-  //   if (value > 2500) return 'icon-circle color10';
-  //   if (value > 1000) return 'icon-circle color11';
-  //   if (value > 500) return 'icon-circle color12';
-  //   if (value > 250) return 'icon-circle color13';
-  //   if (value > 100) return 'icon-circle color14';
-  //   if (value > 50) return 'icon-circle color15';
-  //   if (value > 25) return 'icon-circle color16';
-  //   if (value > 5) return 'icon-circle color17';
-  //   return 'icon-circle color18';
-  // }
-
   createMarker(country) {
     const value = this.getRate(country);
     const iconOptions = {
@@ -209,7 +129,6 @@ export default class CovidMap {
   addMarkers() {
     this.markers = [];
     this.state.data.Countries.forEach((country) => {
-      // const value = this.getRate(country);
       const marker = this.createMarker(country);
       marker.addTo(this.map);
       this.markers.push(marker);
@@ -229,13 +148,6 @@ export default class CovidMap {
       return false;
     });
   }
-
-  // findBorderCountry(country) {
-  //   return countryBorders.features.find((item) => {
-  //     if (item.properties.ISO_A3 === country.alpha3Code) return item.geometry;
-  //     return false;
-  //   });
-  // }
 
   addBorders() {
     this.borders = [];
