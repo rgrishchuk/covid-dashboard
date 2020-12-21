@@ -76,8 +76,10 @@ class Keyboard {
         case 'enter':
           keyElement.classList.add('keyboard__key--wide');
           keyElement.innerHTML = createIconHTML('keyboard_return');
-          /* this.inputCountry.focus(); */
-          keyElement.addEventListener('click', () => { search(ctx, this.inputCountry.value); });
+          keyElement.addEventListener('click', () => {
+            search.call(ctx, this.inputCountry.value);
+            this.close();
+          });
           break;
 
         case 'space':
@@ -147,12 +149,11 @@ class Keyboard {
 
   toggleCapsLock() {
     this.properties.capsLock = !this.properties.capsLock;
-    /* eslint-disable-next-line */
-    for (const key of this.elements.keys) {
-      if (key.childElementCount === 0) {
-        key.textContent = this.properties.capsLock
-          ? key.textContent.toUpperCase()
-          : key.textContent.toLowerCase();
+    for (let i = 0; i < this.elements.keys.length; i += 1) {
+      if (this.elements.keys[i].childElementCount === 0) {
+        this.elements.keys[i].textContent = this.properties.capsLock
+          ? this.elements.keys[i].textContent.toUpperCase()
+          : this.elements.keys[i].textContent.toLowerCase();
       }
     }
   }

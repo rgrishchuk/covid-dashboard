@@ -14,7 +14,7 @@ function getDataPer100k(value, all) {
   return Math.ceil(((value * 100000) / all) * 100) / 100;
 }
 
-export default async function getData() {
+async function getData() {
   const covidData = await getJSON('https://api.covid19api.com/summary');
   const countriesData = await getJSON('https://restcountries.eu/rest/v2');
   if (covidData && covidData.Countries && Array.isArray(countriesData)) {
@@ -72,3 +72,5 @@ export default async function getData() {
   }
   return null;
 }
+
+module.exports = { getData, getJSON, getDataPer100k };
