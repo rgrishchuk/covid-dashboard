@@ -102,3 +102,5 @@ export default async function getData() {
   covidData.Countries.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed);
   return covidData;
 }
+
+module.exports = { getData, getJSON, getDataPer100k };

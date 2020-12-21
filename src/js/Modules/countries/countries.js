@@ -1,9 +1,9 @@
-import components from '../../components/components';
 import keyboard from './virtualKeyboard';
+
+const { components } = require('../../components/components');
 
 export default class Countries {
   constructor(state) {
-    this.insideCurCountry = '';
     this.valueInput = '';
     this.state = state;
     this.container = document.querySelector('.main__container .countries');
@@ -20,15 +20,16 @@ export default class Countries {
     this.createListCountries();
     this.searchCountry();
     this.setStateRate();
-    components.setValueRadioBtn(this);
-    components.setStatePeriodAndPopulation(this);
-    components.toggleSizeContainer(this.btnFull, this.container);
+    components.setValueRadioBtn.call(this);
+    components.setStatePeriodAndPopulation.call(this);
+    components.toggleSizeContainer.call(this);
   }
 
   update() {
     this.createListCountries();
     this.setValueSelect();
-    components.setValueRadioBtn(this);
+    this.setValueCountry();
+    components.setValueRadioBtn.call(this);
   }
 
   createListCountries() {
@@ -39,27 +40,14 @@ export default class Countries {
       item.innerHTML = `
       <div class="text">
         <span class="count">
-        ${components.getDataCountry(this.state, el, this.state.currentRate)}
+        ${components.getDataCountry(this, el, this.state.currentRate)}
         </span>
         <span class="name-country">${el.Country}</span>
       </div>
       <img class="flag" src="${el.flag}">`;
       item.addEventListener('click', () => {
-        this.insideCurCountry = el.Country;
         this.state.set('currentCountry', el.Country);
       });
-
-      if (this.insideCurCountry) {
-        /* eslint-disable-next-line */
-        for (const elem of this.listCountries.children) {
-          const nameCountry = elem.firstElementChild.lastElementChild.textContent;
-          if (this.insideCurCountry === nameCountry) {
-            elem.classList.add('active');
-          } else {
-            elem.classList.remove('active');
-          }
-        }
-      }
       this.listCountries.append(item);
     });
   }
@@ -68,25 +56,22 @@ export default class Countries {
     const input = document.querySelector('.input-country');
 
     function filterListCountry(value, listCountries) {
-      /* eslint-disable-next-line */
-      for (const elem of listCountries.children) {
-        if (value.length === 0) elem.classList.remove('hide');
+      const listElem = listCountries.children;
+      for (let i = 0; i < listElem.length; i += 1) {
+        if (value.length === 0) listElem[i].classList.remove('hide');
 
-        const nameCountry = elem.firstElementChild.lastElementChild.textContent;
+        const nameCountry = listElem[i].firstElementChild.lastElementChild.textContent;
         if (nameCountry.toLowerCase().startsWith(value.toLowerCase())) {
-          elem.classList.remove('hide');
+          listElem[i].classList.remove('hide');
         } else {
-          elem.classList.add('hide');
+          listElem[i].classList.add('hide');
         }
       }
     }
 
-    function search(ctx, value) {
-      const elemCountry = ctx.state.data.Countries.find((el) => el.Country.toLowerCase() === value);
-      if (elemCountry !== undefined) {
-        ctx.insideCurCountry = elemCountry.Country;
-        ctx.state.set('currentCountry', elemCountry.Country);
-      }
+    function search(value) {
+      const elCountry = this.state.data.Countries.find((el) => el.Country.toLowerCase() === value);
+      if (elCountry !== undefined) this.state.set('currentCountry', elCountry.Country);
     }
 
     input.addEventListener('input', (event1) => {
@@ -98,7 +83,9 @@ export default class Countries {
     input.addEventListener('focus', () => {
       document.addEventListener('keydown', (event2) => {
         if (event2.keyCode === 13) {
-          search(this, this.valueInput);
+          search.call(this, this.valueInput);
+          keyboard.close();
+          input.blur();
         }
       });
     });
@@ -110,6 +97,34 @@ export default class Countries {
     this.select.addEventListener('change', (e) => {
       this.state.set('currentRate', e.target.value);
     });
+  }
+
+  setValueCountry() {
+    let indexCurCountry;
+    const heightElem = this.listCountries.children[0].clientHeight + 1; // 1 = border
+    const elemList = this.listCountries.children;
+
+    if (this.state.currentCountry) {
+      for (let i = 0; i < elemList.length; i += 1) {
+        const textCountry = elemList[i].firstElementChild.lastElementChild.textContent;
+        if (this.state.currentCountry === textCountry) {
+          indexCurCountry = i;
+          elemList[i].classList.add('active');
+        } else {
+          elemList[i].classList.remove('active');
+        }
+      }
+    }
+
+    this.scrollListCountries(indexCurCountry, heightElem);
+  }
+
+  scrollListCountries(indexCurCountry, heightElem) {
+    if (indexCurCountry >= 3) {
+      this.listCountries.scrollTo({ top: (indexCurCountry - 3) * heightElem, behavior: 'smooth' });
+    } else {
+      this.listCountries.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   setValueSelect() {

@@ -1,3 +1,5 @@
+const { components } = require('./components/components');
+
 export default class State {
   constructor() {
     this.data = null;
@@ -13,24 +15,9 @@ export default class State {
     document.dispatchEvent(new Event('updateState', { bubbles: true }));
   }
 
-  // TODO add sort per 100k
   sortCovidData(data) {
     return data.Countries.sort((a, b) => {
-      let keySort;
-      switch (this.currentRate) {
-        case 'confirmed':
-          keySort = this.periodTotal ? 'TotalConfirmed' : 'NewConfirmed';
-          break;
-        case 'deaths':
-          keySort = this.periodTotal ? 'TotalDeaths' : 'NewDeaths';
-          break;
-        case 'recovered':
-          keySort = this.periodTotal ? 'TotalRecovered' : 'NewRecovered';
-          break;
-        default:
-          keySort = 'TotalConfirmed';
-      }
-
+      const keySort = components.getKey.call(this, this.currentRate);
       return b[keySort] - a[keySort];
     });
   }
