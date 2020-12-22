@@ -44,7 +44,13 @@ async function getData() {
   data = await getJSON(`${API_COVID}countries`);
   if (Array.isArray(data)) {
     covidData.Countries = [];
-    data.forEach((item) => {
+    data.forEach((elem) => {
+      const item = elem;
+      if (item.country === "Lao People's Democratic Republic") item.country = 'Laos';
+      if (item.country === 'Saint Vincent and the Grenadines') item.country = 'St Vincent, Grenadines';
+      if (item.country === 'Holy See (Vatican City State)') item.country = 'Holy See';
+      if (item.country === 'Falkland Islands (Malvinas)') item.country = 'Falkland Islands';
+
       covidData.Countries.push({
         Country: item.country,
         CountryCode: item.countryInfo.iso2,

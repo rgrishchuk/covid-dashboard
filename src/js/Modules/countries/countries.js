@@ -32,6 +32,10 @@ export default class Countries {
     components.setValueRadioBtn.call(this);
   }
 
+  reset() {
+    this.update();
+  }
+
   createListCountries() {
     this.listCountries.innerHTML = '';
     this.state.data.Countries.forEach((el) => {

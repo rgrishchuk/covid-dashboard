@@ -21,7 +21,7 @@
         <button class="error__button" id="error-button">Try again</button>
     </div>
     <header class="header">
-        <div class="header__title">COVID-19 dashboard</div>
+        <div class="header__title">COVID-19 dashboard<img src='./assets/icons/covid-19.svg' alt="covid"></div>
         <div class="header__date" id="lastUpdate"></div>
     </header>
     <main class="main">
@@ -81,38 +81,43 @@
                 </div>
                 <div class="map__content"></div>
                 <div class="map__buttons">
-                    <fieldset class="rate"> <legend><b>Rate</b></legend>
-                        <div class="btn-wrapper-flex-row">
-                            <div class="btn-wrapper">
-                                <input type="radio" name="map__rate" id="map-btn-confirmed" value="confirmed" checked="checked">
-                                <div class="radio-btn"></div>
-                                <label for="map-btn-confirmed">confirmed</label>
-                            </div>
-                            <div class="btn-wrapper">
-                                <input type="radio" name="map__rate" id="map-btn-deaths" value="deaths">
-                                <div class="radio-btn"></div>
-                                <label for="map-btn-deaths">deaths</label>
-                            </div>
-                            <div class="btn-wrapper">
-                                <input type="radio" name="map__rate" id="map-btn-recovered" value="recovered">
-                                <div class="radio-btn"></div>
-                                <label for="map-btn-recovered">recovered</label>
-                            </div>
+                    <fieldset class="block-period">
+                        <legend><b>Period</b></legend>
+                        <div class="block-period__btn">
+                            <input type="radio" id="map-btn-all" value="all" name="map__period" checked>
+                            <label for="map-btn-all">all</label>
+                            <div class="check"></div>
                         </div>
-                        <div class="btn-wrapper">
-                            <input type="checkbox" id="map__per100k"><label for="map__per100k">
-                            <div class="check-btn"></div>
-                            <label for="map__per100k">per 100k</label>
+                        <div class="block-period__btn">
+                            <input type="radio" id="map-btn-day" value="day" name="map__period">
+                            <label for="map-btn-day">last day</label>
+                            <div class="check"></div>
                         </div>
                     </fieldset>
-                    <fieldset class="period"> <legend><b>Period</b></legend>
-                        <div class="btn-wrapper">
-                            <input type="radio" name="map__period" value="all" id="map-btn-all" checked="checked">
-                            <label for="map-btn-all">all</label>
+                    <fieldset class="block-rate">
+                        <legend><b>Rate</b></legend>
+                        <div class="btn-wrapper-flex-col">
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-confirmed" value="confirmed" checked>
+                                <label for="map-btn-confirmed">confirmed</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-deaths" value="deaths">
+                                <label for="map-btn-deaths">deaths</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-recovered" value="recovered">
+                                <label for="map-btn-recovered">recovered</label>
+                                <div class="check"></div>
+                            </div>
                         </div>
                         <div class="btn-wrapper">
-                            <input type="radio" name="map__period" value="day" id="map-btn-day">
-                            <label for="map-btn-day">last day</label>
+                            <input type="checkbox" id="map__per100k">
+                            <label for="map__per100k">
+                                <span></span>per 100k
+                            </label>
                         </div>
                     </fieldset>
             </section>
@@ -182,53 +187,65 @@
                         </div>
                     </div>
                     <div class="chart__buttons">
-                        <fieldset class="rate"> <legend><b>Rate</b></legend>
-                            <div class="btn-wrapper-flex-row">
-                                <div class="btn-wrapper">
-                                    <input type="radio" name="chart__rate" id="chart-btn-confirmed" value="confirmed" checked="checked">
-                                    <div class="radio-btn"></div>
-                                    <label for="chart-btn-confirmed">confirmed</label>
-                                </div>
-                                <div class="btn-wrapper">
-                                    <input type="radio" name="chart__rate" id="chart-btn-deaths" value="deaths">
-                                    <div class="radio-btn"></div>
-                                    <label for="chart-btn-deaths">deaths</label>
-                                </div>
-                                <div class="btn-wrapper">
-                                    <input type="radio" name="chart__rate" id="chart-btn-recovered" value="recovered">
-                                    <div class="radio-btn"></div>
-                                    <label for="chart-btn-recovered">recovered</label>
-                                </div>
+                        <fieldset class="block-period">
+                            <legend><b>Period</b></legend>
+                            <div class="block-period__btn">
+                                <input type="radio" id="chart-btn-all" value="all" name="chart__period" checked>
+                                <label for="chart-btn-all">all</label>
+                                <div class="check"></div>
                             </div>
-                            <div class="btn-wrapper">
-                                <input type="checkbox" id="chart__per100k"><label for="chart__per100k">
-                                <div class="check-btn"></div>
-                                <label for="chart__per100k">per 100k</label>
+                            <div class="block-period__btn">
+                                <input type="radio" id="chart-btn-day" value="day" name="chart__period">
+                                <label for="chart-btn-day">last day</label>
+                                <div class="check"></div>
                             </div>
                         </fieldset>
-                        <fieldset class="period"> <legend><b>Period</b></legend>
-                            <div class="btn-wrapper">
-                                <input type="radio" name="chart__period" value="all" id="chart-btn-all" checked="checked">
-                                <label for="chart-btn-all">all</label>
+                        <fieldset class="block-rate">
+                            <legend><b>Rate</b></legend>
+                            <div class="btn-wrapper-flex-col">
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-confirmed" value="confirmed"
+                                        checked>
+                                    <label for="chart-btn-confirmed">confirmed</label>
+                                    <div class="check"></div>
+                                </div>
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-deaths" value="deaths">
+                                    <label for="chart-btn-deaths">deaths</label>
+                                    <div class="check"></div>
+                                </div>
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-recovered" value="recovered">
+                                    <label for="chart-btn-recovered">recovered</label>
+                                    <div class="check"></div>
+                                </div>
                             </div>
                             <div class="btn-wrapper">
-                                <input type="radio" name="chart__period" value="day" id="chart-btn-day">
-                                <label for="chart-btn-day">last day</label>
+                                <input type="checkbox" id="chart__per100k">
+                                <label for="chart__per100k">
+                                    <span></span>per 100k
+                                </label>
                             </div>
-                        </fieldset>                        
+                        </fieldset>
                     </div>
                 </section>
             </div>
         </div>
     </main>
     <footer class="footer">
-        <span class='footer__year'>2020</span>
+        <span class='footer__year'>&#169; 2020</span>
         <div class='git'>
-            <img src="./assets/icons/github.svg" alt="Logo git" class="git__icon">
-            <a href="https://github.com/rgrishchuk" target="_blank" class="git__text">rgrishchuk</a>
-            <a href="https://github.com/musakius" target="_blank" class="git__text">musakius</a>
+            <a href="https://github.com/rgrishchuk" target="_blank" class="git__text">
+                <img src="./assets/icons/github.svg" alt="Logo git" class="git__icon">
+                rgrishchuk
+            </a>
+            <a href="https://github.com/musakius" target="_blank" class="git__text">
+                <img src="./assets/icons/github.svg" alt="Logo git" class="git__icon">
+                musakius
+            </a>
         </div>
-        <a href="https://rs.school/js/" target="_blank" rel="noopener noreferrer"><img src="/assets/icons/rs_school.svg" alt="Logo RS School" class="logo-rs"></a>
+        <a href="https://rs.school/js/" target="_blank" rel="noopener noreferrer"><img src="/assets/icons/rs_school.svg"
+                alt="Logo RS School" class="logo-rs"></a>
     </footer>
     <script src="/assets/libraries/Leaflet/leaflet.js"></script>
     <script src="/assets/libraries/Chart/Chart.bundle.min.js"></script>
