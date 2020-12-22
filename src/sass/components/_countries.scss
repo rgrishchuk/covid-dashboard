@@ -115,8 +115,17 @@
           .text {
             .count {
               font-size: 1rem;
-              color: #f00;
               font-weight: bold;
+            }
+            .red {
+              color: rgb(201, 19, 19);
+            }
+            .black {
+              color: rgb(8, 8, 8);
+              text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.096), 0 0 1px transparent;
+            }
+            .green {
+              color: rgb(6, 197, 6);
             }
           }
           .flag {

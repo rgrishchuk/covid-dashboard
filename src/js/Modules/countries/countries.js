@@ -42,18 +42,24 @@ export default class Countries {
       const item = document.createElement('li');
       item.classList.add('item');
       item.innerHTML = `
-      <div class="text">
-        <span class="count">
-        ${components.getDataCountry(this, el, this.state.currentRate)}
-        </span>
-        <span class="name-country">${el.Country}</span>
-      </div>
-      <img class="flag" src="${el.flag}">`;
+    <div class="text">
+    <span class="count ${this.getColorCount()}">
+    ${components.getDataCountry(this, el, this.state.currentRate)}
+    </span>
+    <span class="name-country">${el.Country}</span>
+    </div>
+    <img class="flag" src="${el.flag}">`;
       item.addEventListener('click', () => {
         this.state.set('currentCountry', el.Country);
       });
       this.listCountries.append(item);
     });
+  }
+
+  getColorCount() {
+    if (this.state.currentRate === 'confirmed') return 'red';
+    if (this.state.currentRate === 'recovered') return 'green';
+    return 'black';
   }
 
   searchCountry() {
