@@ -35,7 +35,7 @@ export default class CovidChart {
         legend: {
           labels: {
             fontColor: 'white',
-            fontSize: 18,
+            fontSize: 14,
           },
         },
         scales: {
@@ -68,11 +68,8 @@ export default class CovidChart {
       const rate = this.getRateName();
       if (rate === 'cases') color = '#c91313';
       else if (rate === 'recovered') color = '#06c506';
-      let per100k = '';
-      if (this.state.populationTotal) per100k = 'in';
-      else per100k = 'per100k in';
       const currCountry = this.state.currentCountry === 'global' ? 'World' : this.state.currentCountry;
-      this.covidChart.data.datasets[0].label = `COVID-19 ${this.state.currentRate} ${per100k} ${currCountry}`;
+      this.covidChart.data.datasets[0].label = currCountry;
       this.covidChart.data.datasets[0].borderColor = color;
       this.covidChart.data.datasets[0].data = this.data;
       this.covidChart.update();

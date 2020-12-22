@@ -3,7 +3,7 @@ import App from './app';
 
 const { getData } = require('./data');
 
-const UPDATE_INTERVAL = 12 * 60 * 60000;
+const UPDATE_INTERVAL = 6 * 60 * 60000;
 const UPDATE_INTERVAL_ON_ERROR = 5 * 60000;
 
 const app = new App();
