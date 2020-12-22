@@ -1,0 +1,114 @@
+.main__container {
+  .map {
+    display: flex;
+    flex-direction: column;
+
+    &.fullscreen {
+      z-index: 9900;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      padding: 15px;
+      margin: 0;
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      padding: 0 5px 5px 5px;
+      &__text {
+        width: 100%;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &__content {
+      width: 100%;
+      height: calc(100% - 150px);
+
+      .icon-circle {
+        @include map-legend-colors;
+        border-color: black;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 1px;
+        opacity: 0.7;
+        width: 5px;
+        height: 5px;
+      }
+
+      .map-legend {
+        width: 90px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        background: white;
+        font-size: 11px;
+        color: black;
+        div {
+          height: 15px;
+          width: 15px;
+          background-color: gray;
+
+          @include map-legend-colors;
+        }
+
+        span {
+          margin-left: 5px;
+          width: 70px;
+        }
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 90px;
+
+      .btn-wrapper-flex-row {
+        display: flex;
+      }
+
+      .btn-wrapper {
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+      }
+
+      .rate,
+      .period {
+        display: flex;
+        flex-direction: column;
+        height: 95%;
+        margin-top: 5px;
+        width: 100%;
+        padding: 7px;
+        font-size: 14px;
+        border: 1px solid #666;
+
+        legend {
+          color: #aaaaaa;
+        }
+
+        label {
+          margin-left: 4px;
+        }
+      }
+
+      .period {
+        margin-left: 7px;
+      }
+      input:hover,
+      label:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

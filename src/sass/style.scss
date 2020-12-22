@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  background-color: black;
+}
+
+@media (max-width: 1023px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+@import 'abstracts/_variables';
+@import 'components/_overlay';
+@import 'components/_preloader';
+@import 'components/_error';
+@import 'components/_components';
+@import 'components/_countries';
+@import 'components/_virtualKeyboard';
+@import 'components/_table';
+@import 'components/_map';
+@import 'components/_chart';
+@import 'layout/_header';
+@import 'layout/_main';
+@import 'layout/_footer';

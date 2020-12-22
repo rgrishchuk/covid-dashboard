@@ -1,0 +1,20 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background-color: white;
+    opacity: 0.5;
+    z-index: 9990;
+
+    &.active {
+        display: flex;
+    }
+}

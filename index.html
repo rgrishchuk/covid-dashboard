@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19 DASHBOARD</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="./assets/icons/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="/assets/libraries/Leaflet/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+    <img src="./assets/icons/rolling.svg" alt="" class="preloader" id="preloader">
+    <div class="error" id="error">
+        <p class="error__message">Error receiving data</p>
+        <button class="error__button" id="error-button">Try again</button>
+    </div>
+    <header class="header">
+        <div class="header__title">COVID-19 dashboard<img src='./assets/icons/covid-19.svg' alt="covid"></div>
+        <div class="header__date" id="lastUpdate"></div>
+    </header>
+    <main class="main">
+        <div class="main__container">
+            <section class="countries">
+                <div class="countries__title">
+                    <div class="dropdown dropdown-dark">
+                        <select name="cases-select" class="dropdown-select">
+                            <option value="confirmed">Confirmed</option>
+                            <option value="deaths">Deaths</option>
+                            <option value="recovered">Recovered</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-full btn-full-countries">
+                        <i class="material-icons icon_full">fullscreen</i>
+                    </button>
+                    <input class="input-country" type="text" placeholder="country search">
+                </div>
+                <div class="countries__content">
+                    <ul class="list-countries"></ul>
+                </div>
+                <div class="countries__buttons">
+                    <fieldset class="block-period">
+                        <legend><b>Period</b></legend>
+                        <div class="block-period__btn">
+                            <input class="btn-all-period" type="radio" id="x-option" name="period-country">
+                            <label for="x-option">all</label>
+                            <div class="check"></div>
+                        </div>
+                        <div class="block-period__btn">
+                            <input class="btn-last-day" type="radio" id="y-option" name="period-country">
+                            <label for="y-option">last day</label>
+                            <div class="check"></div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="block-population">
+                        <legend><b>Population</b></legend>
+                        <div class="block-population__btn">
+                            <input class="btn-total-cases" type="radio" id="z-option" name="population-country">
+                            <label for="z-option">total</label>
+                            <div class="check"></div>
+                        </div>
+                        <div class="block-population__btn">
+                            <input class="btn-per-100k" type="radio" id="q-option" name="population-country">
+                            <label for="q-option">per 100k</label>
+                            <div class="check"></div>
+                        </div>
+                    </fieldset>
+                </div>
+            </section>
+            <section class="map">
+                <div class="map__title">
+                    <span class="map__title__text">COVID-19 World Map</span>
+                    <button type="button" class="btn-full btn-full-map" id="icon-full-map">
+                        <i class="material-icons icon_full">fullscreen</i>
+                    </button>
+                </div>
+                <div class="map__content"></div>
+                <div class="map__buttons">
+                    <fieldset class="block-period">
+                        <legend><b>Period</b></legend>
+                        <div class="block-period__btn">
+                            <input type="radio" id="map-btn-all" value="all" name="map__period" checked>
+                            <label for="map-btn-all">all</label>
+                            <div class="check"></div>
+                        </div>
+                        <div class="block-period__btn">
+                            <input type="radio" id="map-btn-day" value="day" name="map__period">
+                            <label for="map-btn-day">last day</label>
+                            <div class="check"></div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="block-rate">
+                        <legend><b>Rate</b></legend>
+                        <div class="btn-wrapper-flex-col">
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-confirmed" value="confirmed" checked>
+                                <label for="map-btn-confirmed">confirmed</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-deaths" value="deaths">
+                                <label for="map-btn-deaths">deaths</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-rate__btn">
+                                <input type="radio" name="map__rate" id="map-btn-recovered" value="recovered">
+                                <label for="map-btn-recovered">recovered</label>
+                                <div class="check"></div>
+                            </div>
+                        </div>
+                        <div class="btn-wrapper">
+                            <input type="checkbox" id="map__per100k">
+                            <label for="map__per100k">
+                                <span></span>per 100k
+                            </label>
+                        </div>
+                    </fieldset>
+            </section>
+            <div class="main__container__right">
+                <section class="table">
+                    <div class="table__title">
+                        <div class="block-title"></div>
+                        <button type="button" class="btn-full btn-full-table">
+                            <i class="material-icons icon_full">fullscreen</i>
+                        </button>
+                    </div>
+                    <div class="table__content">
+                        <div class="item">
+                            <h3 class="title">confirmed</h3>
+                            <span class="count red" data-table="confirmed"></span>
+                        </div>
+                        <div class="item">
+                            <h3 class="title">deaths</h3>
+                            <span class="count black" data-table="deaths"></span>
+                        </div>
+                        <div class="item">
+                            <h3 class="title">recovered</h3>
+                            <span class="count green" data-table="recovered"></span>
+                        </div>
+                    </div>
+                    <div class="table__buttons">
+                        <fieldset class="block-period">
+                            <legend><b>Period</b></legend>
+                            <div class="block-period__btn">
+                                <input class="btn-all-period" type="radio" id="a-option" name="period-table">
+                                <label for="a-option">all</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-period__btn">
+                                <input class="btn-last-day" type="radio" id="b-option" name="period-table">
+                                <label for="b-option">last day</label>
+                                <div class="check"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="block-population">
+                            <legend><b>Population</b></legend>
+                            <div class="block-population__btn">
+                                <input class="btn-total-cases" type="radio" id="c-option" name="population-table">
+                                <label for="c-option">total</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-population__btn">
+                                <input class="btn-per-100k" type="radio" id="d-option" name="population-table">
+                                <label for="d-option">per 100k</label>
+                                <div class="check"></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </section>
+                <section class="chart">
+                    <div class="chart__title">
+                        <button type="button" class="btn-full btn-full-chart" id="icon-full-chart">
+                            <i class="material-icons icon_full">fullscreen</i>
+                        </button>
+                    </div>
+                    <div class="chart__content">
+                        <div id="chart__wrapper" class="chart__wrapper">
+                            <canvas id="covidChart" class="covidChart"></canvas>
+                        </div>
+                        <div id="no_data" class="noData active">
+                            <span>No Data Available</span>
+                        </div>
+                    </div>
+                    <div class="chart__buttons">
+                        <fieldset class="block-period">
+                            <legend><b>Period</b></legend>
+                            <div class="block-period__btn">
+                                <input type="radio" id="chart-btn-all" value="all" name="chart__period" checked>
+                                <label for="chart-btn-all">all</label>
+                                <div class="check"></div>
+                            </div>
+                            <div class="block-period__btn">
+                                <input type="radio" id="chart-btn-day" value="day" name="chart__period">
+                                <label for="chart-btn-day">last day</label>
+                                <div class="check"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="block-rate">
+                            <legend><b>Rate</b></legend>
+                            <div class="btn-wrapper-flex-col">
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-confirmed" value="confirmed"
+                                        checked>
+                                    <label for="chart-btn-confirmed">confirmed</label>
+                                    <div class="check"></div>
+                                </div>
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-deaths" value="deaths">
+                                    <label for="chart-btn-deaths">deaths</label>
+                                    <div class="check"></div>
+                                </div>
+                                <div class="block-rate__btn">
+                                    <input type="radio" name="chart__rate" id="chart-btn-recovered" value="recovered">
+                                    <label for="chart-btn-recovered">recovered</label>
+                                    <div class="check"></div>
+                                </div>
+                            </div>
+                            <div class="btn-wrapper">
+                                <input type="checkbox" id="chart__per100k">
+                                <label for="chart__per100k">
+                                    <span></span>per 100k
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <span class='footer__year'>&#169; 2020</span>
+        <div class='git'>
+            <a href="https://github.com/rgrishchuk" target="_blank" class="git__text">
+                <img src="./assets/icons/github.svg" alt="Logo git" class="git__icon">
+                rgrishchuk
+            </a>
+            <a href="https://github.com/musakius" target="_blank" class="git__text">
+                <img src="./assets/icons/github.svg" alt="Logo git" class="git__icon">
+                musakius
+            </a>
+        </div>
+        <a href="https://rs.school/js/" target="_blank" rel="noopener noreferrer"><img src="/assets/icons/rs_school.svg"
+                alt="Logo RS School" class="logo-rs"></a>
+    </footer>
+    <script src="/assets/libraries/Leaflet/leaflet.js"></script>
+    <script src="/assets/libraries/Chart/Chart.bundle.min.js"></script>
+    <!-- <script src="/assets/resources/countries.geojson"></script> -->
+    <script src="/assets/resources/countries.geo.json"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

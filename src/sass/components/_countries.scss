@@ -1,0 +1,163 @@
+.main__container {
+  .countries {
+    min-width: 300px;
+    &.full {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1002;
+      width: 100%;
+      height: 100vh;
+      padding: 15px;
+      margin: 0;
+    }
+    &__title {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px 17px 10px;
+      height: 120px;
+      .dropdown {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        height: 38px;
+        width: calc(100% - 60px);
+        border: 1px solid;
+        border-radius: 3px;
+        background: #444;
+        border-color: #111111;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          z-index: 1001;
+          top: 12px;
+          right: 13px;
+          width: 0;
+          height: 0;
+          border: 4px dashed;
+          border-color: #888888 transparent;
+          pointer-events: none;
+        }
+        &::before {
+          border-bottom-style: solid;
+          border-top: none;
+          border-bottom-color: #aaa;
+        }
+        &::after {
+          margin-top: 7px;
+          border-top-style: solid;
+          border-bottom: none;
+          border-top-color: #aaa;
+        }
+        .dropdown-select {
+          position: relative;
+          width: 100%;
+          margin: 0;
+          padding: 6px 8px 6px 13px;
+          height: 100%;
+          font-size: 20px;
+          background: rgba(0, 0, 0, 0) !important;
+          border: 0;
+          border-radius: 0;
+          -webkit-appearance: none;
+          color: #ccc;
+          text-shadow: 0 1px black;
+          background: #444;
+          cursor: pointer;
+          &:focus {
+            z-index: 1002;
+            width: 100%;
+            color: #ccc;
+            outline: none;
+            outline-offset: -2px;
+          }
+        }
+        .dropdown-select > option {
+          margin: 3px;
+          padding: 6px 8px;
+          border-radius: 3px;
+          background: #444;
+          text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+          cursor: pointer;
+        }
+      }
+      .input-country {
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 5px 10px;
+        margin-top: 15px;
+      }
+    }
+    &__content {
+      height: calc(100% - 200px);
+      .list-countries {
+        height: 100%;
+        overflow: auto;
+        border: 1px solid #666;
+        transition: 0.3s ease-in-out;
+        .item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 40px;
+          padding: 0.6rem 1rem;
+          color: #fff;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+          background-color: #343a40;
+          border-bottom: 1px solid #666;
+          .text {
+            .count {
+              font-size: 1rem;
+              font-weight: bold;
+            }
+            .red {
+              color: rgb(201, 19, 19);
+            }
+            .black {
+              color: rgb(8, 8, 8);
+              text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.096), 0 0 1px transparent;
+            }
+            .green {
+              color: rgb(6, 197, 6);
+            }
+          }
+          .flag {
+            width: 30px;
+            height: 20px;
+          }
+          &:hover,
+          &.active {
+            background-color: #272b30;
+          }
+          &.hide {
+            display: none;
+          }
+        }
+        &::-webkit-scrollbar {
+          height: 8px;
+          width: 8px;
+          background: #1b1b1b;
+        }
+        &::-webkit-scrollbar-corner {
+          background: #1b1b1b;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #707070;
+          border-radius: 1px;
+        }
+      }
+    }
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 80px;
+    }
+  }
+}

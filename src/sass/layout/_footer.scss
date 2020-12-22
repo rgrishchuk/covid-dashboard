@@ -1,0 +1,37 @@
+.footer {
+  @include main_blocks(55px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  .git {
+    margin: 0 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      margin: 0 10px;
+      &:visited,
+      &:link {
+        color: #aaaaaa;
+      }
+      &:hover {
+        color: #ffffff;
+      }
+      .git__icon {
+        margin-right: 5px;
+      }
+    }
+
+    &__text {
+      margin-left: 5px;
+    }
+  }
+
+  .logo-rs {
+    width: 70px;
+  }
+}
