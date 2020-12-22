@@ -1,105 +1,94 @@
 .main__container {
-    .chart {
+  .chart {
+    display: flex;
+    flex-direction: column;
+    &.fullscreen {
+      z-index: 9900;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      padding: 15px;
+      margin: 0;
+    }
+
+    &__title {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      height: 40px;
+      padding-right: 5px;
+    }
+
+    &__content {
+      height: calc(100% - 130px);
+      width: 100%;
+
+      .chart__wrapper {
+        display: none;
+        height: 100%;
+        width: 100%;
+        &.active {
+          display: block;
+        }
+      }
+
+      .noData {
+        height: 100%;
+        width: 100%;
+        display: none;
+        &.active {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px;
+        }
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 90px;
+
+      .btn-wrapper-flex-row {
+        display: flex;
+      }
+
+      .btn-wrapper {
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+      }
+
+      .rate,
+      .period {
         display: flex;
         flex-direction: column;
+        height: 95%;
+        margin-top: 5px;
+        width: 100%;
+        padding: 7px;
+        font-size: 14px;
+        border: 1px solid #666;
 
-
-    
-        &.fullscreen {
-            z-index: 9900;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            padding: 15px;        
+        legend {
+          color: #aaaaaa;
         }
 
-        &__title {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            height: 15%;
-            padding: 5px;
-            .icon_full {
-                font-size: 30px;
-    
-                &:hover {
-                    cursor: pointer;
-                }
-            }
+        label {
+          margin-left: 4px;
         }
+      }
 
-        &__content {
-            height: 65%;
-            width: 100%;
-
-            .chart__wrapper {
-                display: none;
-                height: 100%;
-                width: 100%;
-                &.active {
-                    display: block;
-                }
-            }
-             
-            .noData {
-                height: 100%;
-                width: 100%;
-                display: none;
-                &.active {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 30px;
-                }
-            }       
-        }
-
-        &__buttons {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 20%;
-            font-size: 14px;
-    
-            .btn-wrapper-flex-row {
-                display: flex;
-            }
-    
-            .btn-wrapper {
-                display: flex;
-                align-items: center;
-                margin-right: 5px;
-            }
-    
-            .rate, .period {
-                display: flex;
-                flex-direction: column;
-                height: 95%;
-                margin-top: 5px;
-                width: 100%;
-                padding: 7px;
-                font-size: 14px;
-                border: 1px solid #666;
-
-                legend {
-                    color: #aaaaaa;
-                }
-    
-                label {
-                    margin-left: 4px;
-                }
-            }
-    
-            .period {
-                margin-left: 7px;
-            }
-            input:hover, label:hover {
-                cursor: pointer;
-            }
-    
-    
-        }    
+      .period {
+        margin-left: 7px;
+      }
+      input:hover,
+      label:hover {
+        cursor: pointer;
+      }
     }
+  }
 }
