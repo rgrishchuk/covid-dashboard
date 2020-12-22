@@ -50,8 +50,4 @@ export default class Table {
       if (attr === 'recovered') value.textContent = components.getDataCountry(this, data, attr);
     });
   }
-
-  reset() {
-    console.log(this.state);
-  }
 }

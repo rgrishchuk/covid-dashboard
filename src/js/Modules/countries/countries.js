@@ -134,8 +134,4 @@ export default class Countries {
   setValueSelect() {
     this.select.value = this.state.currentRate;
   }
-
-  reset() {
-    console.log(this.state);
-  }
 }

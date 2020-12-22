@@ -112,7 +112,11 @@ export default class CovidChart {
       const newData = [];
       newData.push(data[0]);
       for (let index = 1; index < data.length; index += 1) {
-        newData.push([data[index][0], data[index][1] - data[index - 1][1]]);
+        if (data[index][1] >= data[index - 1][1]) {
+          newData.push([data[index][0], data[index][1] - data[index - 1][1]]);
+        } else {
+          newData.push([data[index][0], 0]);
+        }
       }
       data = newData;
     }
