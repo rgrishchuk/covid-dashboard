@@ -1,14 +1,15 @@
 .main__container {
   .countries {
     min-width: 300px;
-    padding: 5px !important;
     &.full {
       position: fixed;
       top: 0;
       left: 0;
       z-index: 1002;
       width: 100%;
+      height: 100vh;
       padding: 15px;
+      margin: 0;
     }
     &__title {
       display: flex;
@@ -21,7 +22,7 @@
         display: inline-block;
         position: relative;
         overflow: hidden;
-        height: 40px;
+        height: 38px;
         width: calc(100% - 60px);
         border: 1px solid;
         border-radius: 3px;
@@ -34,7 +35,7 @@
           content: '';
           position: absolute;
           z-index: 1001;
-          top: 14px;
+          top: 12px;
           right: 13px;
           width: 0;
           height: 0;
@@ -59,7 +60,7 @@
           margin: 0;
           padding: 6px 8px 6px 13px;
           height: 100%;
-          font-size: 22px;
+          font-size: 20px;
           background: rgba(0, 0, 0, 0) !important;
           border: 0;
           border-radius: 0;
