@@ -25,6 +25,10 @@ export default class Table {
     components.setValueRadioBtn.call(this);
   }
 
+  reset() {
+    this.update();
+  }
+
   renderTable() {
     const { currentCountry, data } = this.state;
     if (currentCountry === 'global') {
