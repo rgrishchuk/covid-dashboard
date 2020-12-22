@@ -51,4 +51,18 @@ export default class App {
       module.update();
     });
   }
+
+  updateData(data) {
+    this.state.set.data = data;
+    if (this.state.currentCountry !== 'global') {
+      const currCountry = this.state.data.Countries.find((country) => {
+        if (country.Country === this.state.currentCountry) return true;
+        return false;
+      });
+      if (!currCountry) this.state.currentCountry = 'global';
+    }
+    this.modules.forEach((module) => {
+      module.reset();
+    });
+  }
 }

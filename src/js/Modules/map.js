@@ -78,6 +78,16 @@ function findBorderCountry(country) {
     return false;
   });
 }
+
+function setBoundsStyle(border, borderOpacity, fill) {
+  border.setStyle({
+    opacity: borderOpacity,
+    fillOpacity: fill,
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    border.bringToFront();
+  }
+}
 export default class CovidMap {
   constructor(state) {
     this.state = state;
@@ -163,19 +173,10 @@ export default class CovidMap {
         const borderLayer = L.geoJSON(border, settings);
         borderLayer.on({
           mouseover: (e) => {
-            e.target.setStyle({
-              opacity: 1,
-              fillOpacity: 0.2,
-            });
-            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-              e.target.bringToFront();
-            }
+            if (!e.target.selected) setBoundsStyle(e.target, 1, 0.2);
           },
           mouseout: (e) => {
-            e.target.setStyle({
-              opacity: 0,
-              fillOpacity: 0,
-            });
+            if (!e.target.selected) setBoundsStyle(e.target, 0, 0);
           },
           click: (e) => {
             this.map.fitBounds(e.target.getBounds());
@@ -186,6 +187,7 @@ export default class CovidMap {
         borderLayer.bindTooltip(`${country.Country}: ${this.getRate(country)}`, { sticky: true });
         borderLayer.addTo(this.map);
         borderLayer.countryCode = country.alpha3Code;
+        borderLayer.selected = false;
         this.borders.push(borderLayer);
       }
     });
@@ -272,10 +274,28 @@ export default class CovidMap {
     });
   }
 
+  getBoundsCountry(country) {
+    return this.borders.find((border) => border.countryCode === country.alpha3Code);
+  }
+
+  findSelectedBounds() {
+    return this.borders.find((border) => border.selected);
+  }
+
   mapCenteredByCountry(country) {
     const objCountry = this.findCountryByName(country);
     if (objCountry) {
-      this.map.panTo(new L.LatLng(objCountry.latlng[0], objCountry.latlng[1]));
+      const border = this.getBoundsCountry(objCountry);
+      if (border) {
+        const selBorder = this.findSelectedBounds();
+        if (selBorder) {
+          setBoundsStyle(selBorder, 0, 0);
+          selBorder.selected = false;
+        }
+        this.map.fitBounds(border.getBounds());
+        setBoundsStyle(border, 1, 0.6);
+        border.selected = true;
+      } else this.map.panTo(new L.LatLng(objCountry.latlng[0], objCountry.latlng[1]));
     }
   }
 
@@ -315,5 +335,11 @@ export default class CovidMap {
     this.updateButtonsState();
     this.updateMarkers();
     this.updateBorders();
+  }
+
+  reset() {
+    this.deleteBorders();
+    this.addBorders();
+    this.updateMarkers();
   }
 }

@@ -21,12 +21,21 @@ export default class CovidChart {
         ],
       },
       options: {
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          displayColors: false,
+        },
+        hover: {
+          mode: 'index',
+          intersect: false,
+        },
         responsive: true,
         maintainAspectRatio: false,
         legend: {
           labels: {
             fontColor: 'white',
-            fontSize: 18,
+            fontSize: 14,
           },
         },
         scales: {
@@ -59,11 +68,8 @@ export default class CovidChart {
       const rate = this.getRateName();
       if (rate === 'cases') color = '#c91313';
       else if (rate === 'recovered') color = '#06c506';
-      let per100k = '';
-      if (this.state.populationTotal) per100k = 'in';
-      else per100k = 'per100k in';
       const currCountry = this.state.currentCountry === 'global' ? 'World' : this.state.currentCountry;
-      this.covidChart.data.datasets[0].label = `COVID-19 ${this.state.currentRate} ${per100k} ${currCountry}`;
+      this.covidChart.data.datasets[0].label = currCountry;
       this.covidChart.data.datasets[0].borderColor = color;
       this.covidChart.data.datasets[0].data = this.data;
       this.covidChart.update();
@@ -106,7 +112,11 @@ export default class CovidChart {
       const newData = [];
       newData.push(data[0]);
       for (let index = 1; index < data.length; index += 1) {
-        newData.push([data[index][0], data[index][1] - data[index - 1][1]]);
+        if (data[index][1] >= data[index - 1][1]) {
+          newData.push([data[index][0], data[index][1] - data[index - 1][1]]);
+        } else {
+          newData.push([data[index][0], 0]);
+        }
       }
       data = newData;
     }
@@ -183,6 +193,10 @@ export default class CovidChart {
 
   update() {
     this.updateButtonsState();
+    this.updateChart();
+  }
+
+  reset() {
     this.updateChart();
   }
 }
